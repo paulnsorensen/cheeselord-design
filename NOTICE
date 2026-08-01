@@ -1,1 +1,5 @@
 This package redistributes Fraunces and IBM Plex Mono WOFF2 files from the corresponding @fontsource packages. See their package metadata and bundled license files for font-specific attribution and license terms.
+
+Fraunces is Copyright 2020 The Fraunces Project Authors (https://github.com/undercasetype/Fraunces), licensed under the SIL Open Font License, Version 1.1 (OFL-1.1). See assets/fonts/LICENSE-Fraunces.
+
+IBM Plex Mono is Copyright 2017 IBM Corp, licensed under the SIL Open Font License, Version 1.1 (OFL-1.1). See assets/fonts/LICENSE-IBM-Plex-Mono.

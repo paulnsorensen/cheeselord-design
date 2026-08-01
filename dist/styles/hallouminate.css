@@ -1,5 +1,0 @@
-@import "./easy-cheese.css";
-:root { --cl-paper: #fff8ef; --cl-warm-paper: #f5e3ca; --cl-ink: #25160e; --cl-amber: #b94f0d; --cl-rind: #6f2809; --cl-focus: #004e9a; --sl-color-accent-low: #fde0c1; --sl-color-accent: var(--cl-amber); --sl-color-accent-high: var(--cl-rind); }
-:root[data-theme="dark"] { --sl-color-accent-low: #4b210d; --sl-color-accent: #ff8f33; --sl-color-accent-high: #ffd3a6; --sl-color-gray-6: #281b16; --sl-color-black: #171210; }
-body { background: linear-gradient(135deg, rgb(255 143 51 / 12%), transparent 31rem), repeating-linear-gradient(90deg, rgb(255 255 255 / 2%) 0 1px, transparent 1px 8px), var(--sl-color-black); }
-.sl-markdown-content pre { border: 1px solid rgb(255 143 51 / 35%); box-shadow: inset 3px 0 var(--cl-amber); }

@@ -1,4 +1,8 @@
 import { rm } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
-await rm("dist", { recursive: true, force: true });
-await rm("assets/fonts", { recursive: true, force: true });
+const root = fileURLToPath(new URL("..", import.meta.url));
+
+await rm(join(root, "dist"), { recursive: true, force: true });
+await rm(join(root, "assets", "fonts"), { recursive: true, force: true });

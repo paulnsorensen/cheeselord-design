@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
+import { flavorNames, type FlavorName } from "./flavor.js";
 
-export const flavorNames = ["easy-cheese", "hallouminate", "cheeselord"] as const;
-export type FlavorName = (typeof flavorNames)[number];
+export { flavorNames };
+export type { FlavorName };
 
 export interface CoreDefinition {
   version: string;
@@ -23,8 +24,8 @@ export interface ValidationReport {
 }
 
 const hexColor = /^#[0-9a-f]{6}$/i;
-const allowedAccents: Record<string, true> = { accent: true, accentMuted: true, accentStrong: true };
-const allowedSurfaces: Record<string, true> = { paper: true, ink: true };
+const allowedAccents = new Set(["accent", "accentMuted", "accentStrong"]);
+const allowedSurfaces = new Set(["paper", "ink"]);
 
 export const core: CoreDefinition = {
   version: "0.1.0",
@@ -37,22 +38,30 @@ export function validateFlavor(
   flavor: FlavorDefinition,
 ): ValidationReport {
   const errors: string[] = [];
+  const checkLocked = (key: string) => {
+    if (definition.lockedTokens.includes(key)) errors.push(`locked core token override: ${key}`);
+  };
 
-  for (const [key, value] of Object.entries(flavor.accents)) {
-    if (!allowedAccents[key]) errors.push(`unknown accent token: ${key}`);
-    if (!hexColor.test(value)) errors.push(`accent ${key} must be a six-digit hex color`);
+  if (!flavor.accents) {
+    errors.push("accents is required");
+  } else {
+    for (const [key, value] of Object.entries(flavor.accents)) {
+      checkLocked(key);
+      if (!allowedAccents.has(key)) errors.push(`unknown accent token: ${key}`);
+      if (!hexColor.test(value)) errors.push(`accent ${key} must be a six-digit hex color`);
+    }
+
+    if (!Object.hasOwn(flavor.accents, "accent") || !Object.hasOwn(flavor.accents, "accentMuted") || !Object.hasOwn(flavor.accents, "accentStrong")) {
+      errors.push("accent, accentMuted, and accentStrong are required");
+    }
   }
 
   if (flavor.surfaces) {
     for (const [key, value] of Object.entries(flavor.surfaces)) {
-      if (definition.lockedTokens.includes(key)) errors.push(`locked core token override: ${key}`);
-      if (!allowedSurfaces[key]) errors.push(`undeclared surface override: ${key}`);
+      checkLocked(key);
+      if (!allowedSurfaces.has(key)) errors.push(`undeclared surface override: ${key}`);
       if (!hexColor.test(value)) errors.push(`surface ${key} must be a six-digit hex color`);
     }
-  }
-
-  if (!flavor.accents.accent || !flavor.accents.accentMuted || !flavor.accents.accentStrong) {
-    errors.push("accent, accentMuted, and accentStrong are required");
   }
 
   return { valid: errors.length === 0, errors };
@@ -62,5 +71,3 @@ export function contentHash(value: string | Uint8Array): string {
   return `sha256:${createHash("sha256").update(value).digest("hex")}`;
 }
 
-export { generatePortal } from "./portal.js";
-export { generateSocialCard } from "./social-card.js";

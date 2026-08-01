@@ -1,5 +1,4 @@
-@font-face { font-family: Fraunces; font-style: normal; font-weight: 500; font-display: swap; src: url("../../assets/fonts/fraunces-latin-500.woff2") format("woff2"); }
-@font-face { font-family: Fraunces; font-style: normal; font-weight: 700; font-display: swap; src: url("../../assets/fonts/fraunces-latin-700.woff2") format("woff2"); }
+@import "./fonts.css";
 :root { color-scheme: dark; --cellar: #0d1612; --iron: #212b26; --bone: #f0e2c3; --gold: #c9962e; --ember: #a3441a; }
 * { box-sizing: border-box; }
 body { margin: 0; min-block-size: 100vh; color: var(--bone); background: radial-gradient(ellipse at 50% -20%, #253c2e 0, transparent 56%), var(--cellar); font-family: Georgia, serif; }
@@ -15,4 +14,3 @@ nav a:hover { border-color: var(--gold); }
 nav span { color: #baa989; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
 @media (min-width: 48rem) { nav ul { grid-template-columns: repeat(3, 1fr); } }
-@media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; } }

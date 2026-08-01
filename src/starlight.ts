@@ -1,4 +1,4 @@
-import type { FlavorName } from "./index.js";
+import type { FlavorName } from "./flavor.js";
 
 export interface StarlightThemeOptions {
   flavor: Extract<FlavorName, "easy-cheese" | "hallouminate">;
@@ -8,6 +8,7 @@ export interface StarlightThemePlugin {
   name: "@cheeselord/design";
   hooks: {
     "config:setup": (context: {
+      config: { customCss?: string[] };
       updateConfig: (config: { customCss: string[] }) => void;
     }) => void;
   };
@@ -19,8 +20,8 @@ export function cheeselordTheme(options: StarlightThemeOptions): StarlightThemeP
   return {
     name: "@cheeselord/design",
     hooks: {
-      "config:setup": ({ updateConfig }) => {
-        updateConfig({ customCss: [stylesheet] });
+      "config:setup": ({ config, updateConfig }) => {
+        updateConfig({ customCss: [...(config.customCss ?? []), stylesheet] });
       },
     },
   };
