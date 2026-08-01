@@ -1,0 +1,15 @@
+{
+  "name": "@cheeselord/design-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "PREVIEW_FLAVOR=easy-cheese astro build && PREVIEW_FLAVOR=hallouminate astro build && node scripts/portal.mjs",
+    "serve": "python3 -m http.server 4322 --directory dist"
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.41.3",
+    "@cheeselord/design": "file:..",
+    "astro": "^7.1.0"
+  }
+}
