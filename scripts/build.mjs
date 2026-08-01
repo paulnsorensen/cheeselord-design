@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 
 const root = new URL("..", import.meta.url).pathname;
@@ -21,7 +21,6 @@ async function files(path) {
 
 const hash = (content) => `sha256:${createHash("sha256").update(content).digest("hex")}`;
 
-await rm(dist, { recursive: true, force: true });
 await mkdir(join(dist, "styles"), { recursive: true });
 await mkdir(assets, { recursive: true });
 await cp(join(root, "styles"), join(dist, "styles"), { recursive: true });
@@ -40,6 +39,9 @@ for (const directory of inputs) {
 
 const outputHashes = {};
 for (const file of await files(dist)) {
+  outputHashes[relative(root, file)] = hash(await readFile(file));
+}
+for (const file of await files(assets)) {
   outputHashes[relative(root, file)] = hash(await readFile(file));
 }
 
