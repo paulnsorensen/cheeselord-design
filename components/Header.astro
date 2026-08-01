@@ -1,0 +1,12 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "Cheese Lord" } = Astro.props;
+---
+<header class="cheeselord-header">
+  <a href="/" aria-label={`${title} home`}>{title}</a>
+  <slot />
+  <slot name="actions" />
+</header>

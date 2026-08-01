@@ -1,0 +1,16 @@
+@import "./fonts.css";
+:root { color-scheme: dark; --cellar: #0d1612; --iron: #212b26; --bone: #f0e2c3; --gold: #c9962e; --ember: #a3441a; }
+* { box-sizing: border-box; }
+body { margin: 0; min-block-size: 100vh; color: var(--bone); background: radial-gradient(ellipse at 50% -20%, #253c2e 0, transparent 56%), var(--cellar); font-family: Georgia, serif; }
+main { width: min(72rem, calc(100% - 2rem)); margin-inline: auto; padding: 4rem 0 3rem; text-align: center; }
+.eyebrow { margin: 0; color: var(--gold); font: 600 0.72rem/1.3 "IBM Plex Mono", monospace; letter-spacing: 0.24em; text-transform: uppercase; }
+h1 { margin: 0.3rem 0 0; font-family: Fraunces, Georgia, serif; font-size: clamp(4rem, 15vw, 10rem); font-weight: 600; letter-spacing: -0.075em; line-height: 0.84; text-shadow: 0 0 4rem rgb(201 150 46 / 25%); }
+.lede { max-width: 38rem; margin: 1.8rem auto 3rem; font-size: clamp(1rem, 2vw, 1.35rem); line-height: 1.5; }
+picture, img { display: block; max-width: 100%; }
+picture { margin-inline: auto; border: 1px solid rgb(201 150 46 / 42%); box-shadow: 0 1rem 5rem rgb(0 0 0 / 45%); }
+nav ul { display: grid; gap: 0.75rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+nav a { display: grid; gap: 0.25rem; padding: 1rem; color: inherit; border: 1px solid rgb(240 226 195 / 26%); text-decoration: none; text-align: left; }
+nav a:hover { border-color: var(--gold); }
+nav span { color: #baa989; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+@media (min-width: 48rem) { nav ul { grid-template-columns: repeat(3, 1fr); } }

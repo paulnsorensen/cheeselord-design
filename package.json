@@ -1,0 +1,62 @@
+{
+  "name": "@cheeselord/design",
+  "version": "0.1.0",
+  "description": "Shared visual system for Cheese Lord projects",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./starlight": {
+      "types": "./dist/starlight.d.ts",
+      "default": "./dist/starlight.js"
+    },
+    "./styles/*": "./dist/styles/*",
+    "./components/*": "./components/*",
+    "./schemas/*": "./schemas/*",
+    "./package.json": "./package.json",
+    "./portal": {
+      "types": "./dist/portal.d.ts",
+      "default": "./dist/portal.js"
+    },
+    "./social-card": {
+      "types": "./dist/social-card.d.ts",
+      "default": "./dist/social-card.js"
+    }
+  },
+  "files": [
+    "dist",
+    "components",
+    "assets",
+    "schemas",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0 || ^7.0.0",
+    "@astrojs/starlight": "^0.35.0 || ^0.41.0"
+  },
+  "devDependencies": {
+    "@fontsource/fraunces": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.8",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "check": "tsc --noEmit && node scripts/check.mjs",
+    "test": "npm run build && node --test test/**/*.test.mjs",
+    "build": "node scripts/clean.mjs && tsc && node scripts/build.mjs",
+    "test:e2e": "node --test test/e2e.test.mjs",
+    "pack:check": "npm pack --dry-run",
+    "prepare": "npm run build",
+    "prepack": "npm run build"
+  },
+  "license": "MIT AND OFL-1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulnsorensen/cheeselord-design.git"
+  }
+}

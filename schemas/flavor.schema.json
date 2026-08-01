@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cheeselord flavor",
+  "type": "object",
+  "required": ["name", "accents", "socialCard"],
+  "additionalProperties": false,
+  "properties": {
+    "name": { "enum": ["easy-cheese", "hallouminate", "cheeselord"] },
+    "accents": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accent", "accentMuted", "accentStrong"],
+      "properties": {
+        "accent": { "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "accentMuted": { "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "accentStrong": { "pattern": "^#[0-9A-Fa-f]{6}$" }
+      }
+    },
+    "typography": { "type": "object", "additionalProperties": false },
+    "surfaces": { "type": "object", "additionalProperties": false, "properties": { "paper": { "pattern": "^#[0-9A-Fa-f]{6}$" }, "ink": { "pattern": "^#[0-9A-Fa-f]{6}$" } } },
+    "socialCard": { "type": "object", "required": ["composition"], "additionalProperties": false, "properties": { "composition": { "enum": ["workshop", "signal", "monument"] } } }
+  }
+}
