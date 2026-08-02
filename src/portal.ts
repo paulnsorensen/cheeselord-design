@@ -68,8 +68,7 @@ export function generatePortal(options: {
   <div class="wrap">
     <div>
       <p class="eyebrow">${eyebrow}</p>
-      <h1>Working software, <em>aged</em> with intent.</h1>
-      <p class="lede">Tools and knowledge from one workshop: grounded agents, honest reviews, and a design system that ships as a wheel, not a slice.</p>
+      <h1>The <em>cheese</em> must flow.</h1>
       <nav class="cellar" aria-label="Projects">
         <div class="cellar-head">~/cellar · ${count} ${count === 1 ? "wheel" : "wheels"}</div>
         ${rows}
@@ -79,7 +78,7 @@ export function generatePortal(options: {
   </div>
 </main>
 <footer>
-  <div class="wrap"><span>milk in, wheels out</span><span>curds are messages from the <b>cave</b></span></div>
+  <div class="wrap"><span>milk in, wheels out 🧀</span></div>
 </footer>
 </body>
 </html>`,
