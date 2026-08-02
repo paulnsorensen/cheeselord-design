@@ -1,0 +1,40 @@
+name: Publish
+
+# Publishes @cheeselord/design to npm via OIDC trusted publishing — no token
+# or OTP in CI. One-time setup on npmjs.com (package → Settings → Trusted
+# publisher): GitHub Actions, repository paulnsorensen/cheeselord-design,
+# workflow publish.yml. Cut a GitHub release tagged v<version> to publish.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - name: Guard release tag matches package version
+        run: |
+          pkg="$(node -p "require('./package.json').version")"
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$pkg" != "$tag" ]; then
+            echo "package.json is $pkg but the release tag is $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+      - name: Install and build (npm ci runs the prepare build)
+        run: npm ci
+      - name: Test
+        run: npm test
+      - name: Publish
+        run: npm publish
