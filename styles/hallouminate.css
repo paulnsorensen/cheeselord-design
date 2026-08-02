@@ -25,7 +25,7 @@
 h1, h2, h3, .site-title { font-variation-settings: "SOFT" 0, "WONK" 0; }
 
 /* grill marks: faint vertical sear lines behind the page */
-body { background: linear-gradient(135deg, oklch(from var(--sl-color-accent) l c h / 10%), transparent 31rem), repeating-linear-gradient(90deg, light-dark(oklch(from var(--cl-ink) l c h / 5%), oklch(100% 0 0 / 3%)) 0 2px, transparent 2px 16px), var(--sl-color-black); }
+body { background: linear-gradient(135deg, oklch(from var(--sl-color-accent) l c h / 10%), transparent 31rem), repeating-linear-gradient(90deg, light-dark(oklch(from var(--cl-ink) l c h / 5%), oklch(from var(--sl-color-accent) l c h / 4.5%)) 0 2px, transparent 2px 16px), var(--sl-color-black); }
 
 /* code blocks pick up a char stripe with an ember edge */
 .sl-markdown-content pre { border: 1px solid var(--sl-color-gray-5); box-shadow: inset 10px 0 0 light-dark(oklch(30% 0.02 45), oklch(24% 0.02 45)), inset 11.5px 0 0 var(--sl-color-accent); }

@@ -29,14 +29,15 @@
   --sl-color-accent-low: light-dark(oklch(from var(--cl-wax) 93% calc(c * 0.25) h), oklch(from var(--cl-wax) 30% calc(c * 0.5) h));
   --sl-color-accent-high: light-dark(oklch(from var(--cl-wax) 33% calc(c * 0.9) h), oklch(from var(--cl-wax) 90% calc(c * 0.28) h));
   --sl-color-white: light-dark(var(--cl-ink), var(--cl-paper));
-  --sl-color-black: light-dark(var(--cl-paper), oklch(from var(--cl-ink) 20% calc(c * 0.7) h));
+  /* the stage flips (marble by day, basalt by night); the paste and wax stay */
+  --sl-color-black: light-dark(var(--cl-paper), oklch(from var(--cl-ink) 19.5% 0.008 h));
   /* hand-tuned warm ramp: deliberately more chromatic than any ink/paper mix */
   --sl-color-gray-1: light-dark(oklch(28.7% 0.048 70), oklch(91.1% 0.064 84));
   --sl-color-gray-2: light-dark(oklch(41.6% 0.074 74), oklch(83.5% 0.096 84));
   --sl-color-gray-3: light-dark(oklch(54.3% 0.088 76), oklch(68.2% 0.106 78));
   --sl-color-gray-4: light-dark(oklch(66.3% 0.094 76), oklch(53.7% 0.1 72));
   --sl-color-gray-5: light-dark(oklch(86% 0.075 85), oklch(37.1% 0.073 66));
-  --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) 26% calc(c * 1.25) h));
+  --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-amber) 28% calc(c * 0.4) h));
 }
 
 body { background: radial-gradient(circle at 0 0, oklch(from var(--cl-amber) l c h / 16%), transparent 36rem), var(--sl-color-black); }
