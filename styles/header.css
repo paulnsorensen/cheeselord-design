@@ -1,0 +1,8 @@
+@media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; } }
+
+/* the breadcrumb brand: cheeselord.dev / <project>, root always links home */
+.cheeselord-header .brand { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.82rem; letter-spacing: 0.02em; }
+.cheeselord-header .brand a { color: inherit; text-decoration: none; }
+.cheeselord-header .brand a:hover { color: var(--sl-color-accent, var(--gold)); }
+.cheeselord-header .brand b { color: var(--sl-color-accent, var(--gold)); font-weight: 400; }
+.cheeselord-header .brand-sep { color: var(--sl-color-gray-3, var(--dim)); margin-inline: 0.6ch; }

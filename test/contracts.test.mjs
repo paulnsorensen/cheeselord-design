@@ -57,6 +57,26 @@ test("generates a dark portal with keyboard-navigable project links and the whee
   assert.match(portal.html, /class="wheel" role="img"/);
 });
 
+test("portal enforces the brand invariants: brand is a homelink, tab is 🧀", () => {
+  const portal = generatePortal({ projects: [] });
+  assert.match(portal.html, /<a class="brand" href="\/">cheeselord<b>\.dev<\/b><\/a>/);
+  assert.match(portal.html, /<title>🧀<\/title>/);
+});
+
+test("Header component renders the breadcrumb homelink cheeselord.dev / <project>", async () => {
+  const source = await readFile(new URL("../components/Header.astro", import.meta.url), "utf8");
+  assert.match(source, /href="https:\/\/cheeselord\.dev\/"/);
+  assert.match(source, /cheeselord<b>\.dev<\/b>/);
+  assert.match(source, /\{project\}/);
+});
+
+test("flavor stylesheets carry the shared header styling", async () => {
+  const easyCheese = await readFile(new URL("../dist/styles/easy-cheese.css", import.meta.url), "utf8");
+  assert.match(easyCheese, /@import "\.\/header\.css";/);
+  const hallouminate = await readFile(new URL("../dist/styles/hallouminate.css", import.meta.url), "utf8");
+  assert.match(hallouminate, /@import "\.\/easy-cheese\.css";/);
+});
+
 test("generates a social card at its requested dimensions", () => {
   const card = generateSocialCard({ flavor: "hallouminate", title: "Ground it.", description: "Search knowledge.", dimensions: { width: 1280, height: 640 } });
   assert.equal(card.width, 1280);

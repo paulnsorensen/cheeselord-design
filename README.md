@@ -14,7 +14,7 @@ starlight({
 });
 ```
 
-Use a site-local bridge for documented Starlight component override paths. The bridge imports `@cheeselord/design/components/Header.astro` and forwards `Astro.props`, the default slot, and named slots.
+Use a site-local bridge for documented Starlight component override paths. The bridge imports `@cheeselord/design/components/Header.astro` and forwards `Astro.props`, the default slot, and named slots. `Header.astro` renders the brand as the breadcrumb homelink `cheeselord.dev / <project>` (see the invariants in AGENTS.md) — pass `project`, and `projectHref` if the project segment shouldn't link to `/`.
 
 ## Releases
 
