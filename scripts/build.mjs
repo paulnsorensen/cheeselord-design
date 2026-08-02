@@ -25,10 +25,9 @@ const hash = (content) => `sha256:${createHash("sha256").update(content).digest(
 await mkdir(join(dist, "styles"), { recursive: true });
 await mkdir(assets, { recursive: true });
 await cp(join(root, "styles"), join(dist, "styles"), { recursive: true });
-await cp(join(root, "node_modules", "@fontsource", "fraunces", "files", "fraunces-latin-500-normal.woff2"), join(assets, "fraunces-latin-500.woff2"));
-await cp(join(root, "node_modules", "@fontsource", "fraunces", "files", "fraunces-latin-700-normal.woff2"), join(assets, "fraunces-latin-700.woff2"));
+await cp(join(root, "node_modules", "@fontsource-variable", "fraunces", "files", "fraunces-latin-full-normal.woff2"), join(assets, "fraunces-latin-variable.woff2"));
 await cp(join(root, "node_modules", "@fontsource", "ibm-plex-mono", "files", "ibm-plex-mono-latin-400-normal.woff2"), join(assets, "ibm-plex-mono-latin.woff2"));
-await cp(join(root, "node_modules", "@fontsource", "fraunces", "LICENSE"), join(assets, "LICENSE-Fraunces"));
+await cp(join(root, "node_modules", "@fontsource-variable", "fraunces", "LICENSE"), join(assets, "LICENSE-Fraunces"));
 await cp(join(root, "node_modules", "@fontsource", "ibm-plex-mono", "LICENSE"), join(assets, "LICENSE-IBM-Plex-Mono"));
 
 const inputHashes = {};
@@ -61,7 +60,7 @@ const sourceCommit = rawSourceCommit;
 const { version } = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
 const { packages } = JSON.parse(await readFile(join(root, "package-lock.json"), "utf8"));
 const fontProvenance = {
-  "@fontsource/fraunces": packages["node_modules/@fontsource/fraunces"].version,
+  "@fontsource-variable/fraunces": packages["node_modules/@fontsource-variable/fraunces"].version,
   "@fontsource/ibm-plex-mono": packages["node_modules/@fontsource/ibm-plex-mono"].version,
 };
 const manifest = { version, sourceCommit, fontProvenance, inputHashes, outputHashes };

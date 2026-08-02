@@ -47,8 +47,7 @@ function referencedFamilies(withoutFontFace) {
 }
 
 const REQUIRED_FACES = [
-  { family: "Fraunces", weight: "500" },
-  { family: "Fraunces", weight: "700" },
+  { family: "Fraunces", weight: "100 900" },
   { family: "IBM Plex Mono", weight: "400" },
 ];
 
