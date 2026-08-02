@@ -5,6 +5,8 @@
 @property --cl-ink { syntax: "<color>"; inherits: true; initial-value: #2a1909; }
 @property --cl-amber { syntax: "<color>"; inherits: true; initial-value: #bd6d12; }
 @property --cl-rind { syntax: "<color>"; inherits: true; initial-value: #763909; }
+@property --cl-wax { syntax: "<color>"; inherits: true; initial-value: #a02128; }
+@property --cl-ash { syntax: "<color>"; inherits: true; initial-value: #474b55; }
 @property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
 
 :root {
@@ -13,14 +15,18 @@
   --cl-ink: oklch(23.2% 0.038 62);
   --cl-amber: oklch(61.1% 0.137 61);
   --cl-rind: oklch(41.7% 0.102 52);
+  --cl-wax: oklch(45% 0.185 25);
+  --cl-ash: light-dark(oklch(36% 0.012 260), oklch(64% 0.012 260));
   --cl-focus: oklch(38.2% 0.138 257);
+  --cl-stamp-ink: var(--sl-color-gray-2);
 
   --sl-font: Fraunces, Georgia, serif;
   --sl-font-system: system-ui, sans-serif;
 
-  --sl-color-accent: light-dark(var(--cl-amber), oklch(from var(--cl-amber) 79.5% calc(c * 1.1) calc(h + 15)));
-  --sl-color-accent-low: light-dark(oklch(from var(--cl-amber) 92.8% calc(c * 0.5) calc(h + 23)), oklch(from var(--cl-amber) 31% calc(c * 0.5) h));
-  --sl-color-accent-high: light-dark(var(--cl-rind), oklch(from var(--cl-amber) 91.5% calc(c * 0.6) calc(h + 22)));
+  /* gouda in red wax: sealing-wax accent, amber demoted to ambient warmth */
+  --sl-color-accent: light-dark(var(--cl-wax), oklch(from var(--cl-wax) 72% calc(c * 0.85) calc(h + 5)));
+  --sl-color-accent-low: light-dark(oklch(from var(--cl-wax) 93% calc(c * 0.25) h), oklch(from var(--cl-wax) 30% calc(c * 0.5) h));
+  --sl-color-accent-high: light-dark(oklch(from var(--cl-wax) 33% calc(c * 0.9) h), oklch(from var(--cl-wax) 90% calc(c * 0.28) h));
   --sl-color-white: light-dark(var(--cl-ink), var(--cl-paper));
   --sl-color-black: light-dark(var(--cl-paper), oklch(from var(--cl-ink) 20% calc(c * 0.7) h));
   /* hand-tuned warm ramp: deliberately more chromatic than any ink/paper mix */
@@ -32,9 +38,35 @@
   --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) 26% calc(c * 1.25) h));
 }
 
-body { background: radial-gradient(circle at 0 0, oklch(from var(--sl-color-accent) l c h / 16%), transparent 36rem), var(--sl-color-black); }
+body { background: radial-gradient(circle at 0 0, oklch(from var(--cl-amber) l c h / 16%), transparent 36rem), var(--sl-color-black); }
 h1, h2, h3, .site-title { font-family: Fraunces, Georgia, serif; letter-spacing: -0.02em; text-wrap: balance; font-variation-settings: "SOFT" 60, "WONK" 0; }
 .sl-markdown-content :is(p, li) { text-wrap: pretty; }
+
+/* wax seal: the current-page pill squishes like pressed sealing wax */
+a[aria-current="page"] { border-radius: 0.9rem 0.7rem 0.85rem 0.65rem / 0.7rem 0.9rem 0.65rem 0.85rem; box-shadow: inset 0 1px 0 oklch(100% 0 0 / 28%), inset 0 -2px 3px oklch(0% 0 0 / 22%); }
+
+/* ash line: the Morbier seam, for separating layers */
+.sl-markdown-content hr { border: 0; block-size: 1.5px; inline-size: min(34rem, 85%); margin-block: 3rem; margin-inline: auto; background: linear-gradient(90deg, transparent, oklch(from var(--cl-ash) l c h / 65%) 18%, oklch(from var(--cl-ash) l c h / 65%) 82%, transparent); box-shadow: 0 1px 0 light-dark(oklch(100% 0 0 / 35%), oklch(0% 0 0 / 35%)), 0 0 5px oklch(from var(--cl-ash) l c h / 18%); }
+
+/* pin-dot rind stamp: dot-matrix lettering, as pressed into a parmesan rind */
+.cl-stamp, #starlight__on-this-page {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cl-stamp-ink);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .cl-stamp, #starlight__on-this-page {
+    color: transparent;
+    background-image: radial-gradient(closest-side, var(--cl-stamp-ink) 85%, transparent);
+    background-size: 2px 2px;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
 @supports (color: contrast-color(red)) {
   ::selection { background: var(--sl-color-accent); color: contrast-color(var(--sl-color-accent)); }
 }

@@ -13,7 +13,8 @@
       "properties": {
         "accent": { "$ref": "#/$defs/color" },
         "accentMuted": { "$ref": "#/$defs/color" },
-        "accentStrong": { "$ref": "#/$defs/color" }
+        "accentStrong": { "$ref": "#/$defs/color" },
+        "accentAlt": { "$ref": "#/$defs/color" }
       }
     },
     "typography": { "type": "object", "additionalProperties": false },

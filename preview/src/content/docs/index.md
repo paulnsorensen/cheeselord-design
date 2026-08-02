@@ -40,6 +40,12 @@ Accent overrides outside `accent`, `accentMuted`, `accentStrong` are rejected.
 
 > Blockquote: 'Tis but a scratch on the rind.
 
+---
+
+<p class="cl-stamp">Aged with intent — batch 0.1.0</p>
+
+The rule above is the ash line; the lettering above is a rind stamp.
+
 | Export | Purpose |
 | --- | --- |
 | `/starlight` | Theme plugin |

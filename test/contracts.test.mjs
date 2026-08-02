@@ -21,7 +21,7 @@ test("accepts a declared fresh-wheel flavor", () => {
 test("accepts oklch() flavor colors and rejects malformed ones", () => {
   const valid = validateFlavor(core, {
     name: "hallouminate",
-    accents: { accent: "oklch(55.7% 0.153 45)", accentMuted: "oklch(92.3% 0.052 69)", accentStrong: "oklch(37.8% 0.108 41)" },
+    accents: { accent: "oklch(55.7% 0.153 45)", accentMuted: "oklch(92.3% 0.052 69)", accentStrong: "oklch(37.8% 0.108 41)", accentAlt: "oklch(62% 0.055 210)" },
     surfaces: { paper: "oklch(98.2% 0.014 74)", ink: "oklch(21.8% 0.029 49)" },
     socialCard: { composition: "signal" },
   });

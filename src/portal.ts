@@ -72,6 +72,7 @@ export function generatePortal(options: {
       <source srcset="${escapeHtml(options.hero.src)}" type="image/webp">
       <img src="${escapeHtml(options.hero.fallbackSrc)}" alt="${escapeHtml(options.hero.alt)}" width="960" height="540">
     </picture>
+    <hr>
     <nav aria-label="Projects"><ul>${projects}</ul></nav>
   </main>
 </body>

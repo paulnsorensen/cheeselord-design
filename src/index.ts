@@ -26,7 +26,7 @@ export interface ValidationReport {
 const hexColor = /^#[0-9a-f]{6}$/i;
 const oklchColor = /^oklch\((\d{1,2}(\.\d+)?|100)% 0(\.\d+)? \d{1,3}(\.\d+)?\)$/;
 const isColor = (value: string) => hexColor.test(value) || oklchColor.test(value);
-const allowedAccents = new Set(["accent", "accentMuted", "accentStrong"]);
+const allowedAccents = new Set(["accent", "accentMuted", "accentStrong", "accentAlt"]);
 const allowedSurfaces = new Set(["paper", "ink"]);
 
 export const core: CoreDefinition = {
