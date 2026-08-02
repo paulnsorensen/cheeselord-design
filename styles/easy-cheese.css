@@ -10,12 +10,13 @@
 @property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
 
 :root {
-  --cl-paper: oklch(98% 0.024 88);
-  --cl-warm-paper: oklch(95.9% 0.054 91);
+  /* the reference is a wheel on a marble board: cool milk stage, golden paste, vermillion wax */
+  --cl-paper: oklch(97.3% 0.006 85);
+  --cl-warm-paper: oklch(92.5% 0.068 85);
   --cl-ink: oklch(23.2% 0.038 62);
   --cl-amber: oklch(61.1% 0.137 61);
   --cl-rind: oklch(41.7% 0.102 52);
-  --cl-wax: oklch(45% 0.185 25);
+  --cl-wax: oklch(48% 0.17 35);
   --cl-ash: light-dark(oklch(36% 0.012 260), oklch(64% 0.012 260));
   --cl-focus: oklch(38.2% 0.138 257);
   --cl-stamp-ink: var(--sl-color-gray-2);
@@ -34,11 +35,15 @@
   --sl-color-gray-2: light-dark(oklch(41.6% 0.074 74), oklch(83.5% 0.096 84));
   --sl-color-gray-3: light-dark(oklch(54.3% 0.088 76), oklch(68.2% 0.106 78));
   --sl-color-gray-4: light-dark(oklch(66.3% 0.094 76), oklch(53.7% 0.1 72));
-  --sl-color-gray-5: light-dark(oklch(88.9% 0.068 90), oklch(37.1% 0.073 66));
+  --sl-color-gray-5: light-dark(oklch(86% 0.075 85), oklch(37.1% 0.073 66));
   --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) 26% calc(c * 1.25) h));
 }
 
 body { background: radial-gradient(circle at 0 0, oklch(from var(--cl-amber) l c h / 16%), transparent 36rem), var(--sl-color-black); }
+/* every slice keeps a strip of rind: accent-colored band on quoted material */
+.sl-markdown-content blockquote { border-inline-start-color: var(--sl-color-accent); }
+/* code blocks are cut slices: golden paste with a wax rind edge */
+.sl-markdown-content pre { background: var(--sl-color-gray-6); border: 1px solid var(--sl-color-gray-5); box-shadow: inset 3px 0 0 var(--sl-color-accent); }
 h1, h2, h3, .site-title { font-family: Fraunces, Georgia, serif; letter-spacing: -0.02em; text-wrap: balance; font-variation-settings: "SOFT" 60, "WONK" 0; }
 .sl-markdown-content :is(p, li) { text-wrap: pretty; }
 
