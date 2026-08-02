@@ -1,6 +1,41 @@
 @import "./fonts.css";
-:root { --cl-paper: #fff8e7; --cl-warm-paper: #fff1c9; --cl-ink: #2a1909; --cl-amber: #bd6d12; --cl-rind: #763909; --cl-focus: #003f8a; --sl-font: Fraunces, Georgia, serif; --sl-font-system: system-ui, sans-serif; --sl-color-accent-low: #ffe4ae; --sl-color-accent: var(--cl-amber); --sl-color-accent-high: var(--cl-rind); --sl-color-white: var(--cl-ink); --sl-color-gray-1: #3a260d; --sl-color-gray-2: #644517; --sl-color-gray-3: #8d682f; --sl-color-gray-4: #b48b4d; --sl-color-gray-5: #ecd9a7; --sl-color-gray-6: var(--cl-warm-paper); --sl-color-black: var(--cl-paper); }
-:root[data-theme="dark"] { --sl-color-accent-low: #4f2606; --sl-color-accent: #f3ad35; --sl-color-accent-high: #ffe0a1; --sl-color-white: #fff8e7; --sl-color-gray-1: #f6dfb2; --sl-color-gray-2: #e7c47f; --sl-color-gray-3: #bd9047; --sl-color-gray-4: #916321; --sl-color-gray-5: #5a370e; --sl-color-gray-6: #341f08; --sl-color-black: #1e1408; }
-body { background: radial-gradient(circle at 0 0, rgb(243 173 53 / 16%), transparent 36rem), var(--sl-color-black); }
-h1, h2, h3, .site-title { font-family: Fraunces, Georgia, serif; letter-spacing: -0.02em; }
+
+@property --cl-paper { syntax: "<color>"; inherits: true; initial-value: #fff8e7; }
+@property --cl-warm-paper { syntax: "<color>"; inherits: true; initial-value: #fff1c9; }
+@property --cl-ink { syntax: "<color>"; inherits: true; initial-value: #2a1909; }
+@property --cl-amber { syntax: "<color>"; inherits: true; initial-value: #bd6d12; }
+@property --cl-rind { syntax: "<color>"; inherits: true; initial-value: #763909; }
+@property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
+
+:root {
+  --cl-paper: oklch(98% 0.024 88);
+  --cl-warm-paper: oklch(95.9% 0.054 91);
+  --cl-ink: oklch(23.2% 0.038 62);
+  --cl-amber: oklch(61.1% 0.137 61);
+  --cl-rind: oklch(41.7% 0.102 52);
+  --cl-focus: oklch(38.2% 0.138 257);
+
+  --sl-font: Fraunces, Georgia, serif;
+  --sl-font-system: system-ui, sans-serif;
+
+  --sl-color-accent: light-dark(var(--cl-amber), oklch(from var(--cl-amber) 79.5% calc(c * 1.1) calc(h + 15)));
+  --sl-color-accent-low: light-dark(oklch(from var(--cl-amber) 92.8% calc(c * 0.5) calc(h + 23)), oklch(from var(--cl-amber) 31% calc(c * 0.5) h));
+  --sl-color-accent-high: light-dark(var(--cl-rind), oklch(from var(--cl-amber) 91.5% calc(c * 0.6) calc(h + 22)));
+  --sl-color-white: light-dark(var(--cl-ink), var(--cl-paper));
+  --sl-color-black: light-dark(var(--cl-paper), oklch(from var(--cl-ink) 20% calc(c * 0.7) h));
+  /* hand-tuned warm ramp: deliberately more chromatic than any ink/paper mix */
+  --sl-color-gray-1: light-dark(oklch(28.7% 0.048 70), oklch(91.1% 0.064 84));
+  --sl-color-gray-2: light-dark(oklch(41.6% 0.074 74), oklch(83.5% 0.096 84));
+  --sl-color-gray-3: light-dark(oklch(54.3% 0.088 76), oklch(68.2% 0.106 78));
+  --sl-color-gray-4: light-dark(oklch(66.3% 0.094 76), oklch(53.7% 0.1 72));
+  --sl-color-gray-5: light-dark(oklch(88.9% 0.068 90), oklch(37.1% 0.073 66));
+  --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) 26% calc(c * 1.25) h));
+}
+
+body { background: radial-gradient(circle at 0 0, oklch(from var(--sl-color-accent) l c h / 16%), transparent 36rem), var(--sl-color-black); }
+h1, h2, h3, .site-title { font-family: Fraunces, Georgia, serif; letter-spacing: -0.02em; text-wrap: balance; font-variation-settings: "SOFT" 60, "WONK" 0; }
+.sl-markdown-content :is(p, li) { text-wrap: pretty; }
+@supports (color: contrast-color(red)) {
+  ::selection { background: var(--sl-color-accent); color: contrast-color(var(--sl-color-accent)); }
+}
 :focus-visible { outline: 3px solid var(--cl-focus); outline-offset: 3px; }

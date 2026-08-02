@@ -22,7 +22,7 @@ export interface GeneratedPortal {
   assets: string[];
 }
 
-const fontAssets = ["assets/fonts/fraunces-latin-500.woff2", "assets/fonts/fraunces-latin-700.woff2", "assets/fonts/ibm-plex-mono-latin.woff2"];
+const fontAssets = ["assets/fonts/fraunces-latin-variable.woff2", "assets/fonts/ibm-plex-mono-latin.woff2"];
 const stylesheetAssets = ["dist/styles/fonts.css", "dist/styles/cheeselord.css"];
 
 function escapeHtml(value: string): string {
@@ -60,8 +60,7 @@ export function generatePortal(options: {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <title>Cheese Lord</title>
-  <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-500.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-700.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-variable.woff2" crossorigin>
   <link rel="stylesheet" href="./cheeselord.css">
 </head>
 <body>

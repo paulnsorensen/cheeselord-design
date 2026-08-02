@@ -18,6 +18,23 @@ test("accepts a declared fresh-wheel flavor", () => {
   assert.deepEqual(report, { valid: true, errors: [] });
 });
 
+test("accepts oklch() flavor colors and rejects malformed ones", () => {
+  const valid = validateFlavor(core, {
+    name: "hallouminate",
+    accents: { accent: "oklch(55.7% 0.153 45)", accentMuted: "oklch(92.3% 0.052 69)", accentStrong: "oklch(37.8% 0.108 41)" },
+    surfaces: { paper: "oklch(98.2% 0.014 74)", ink: "oklch(21.8% 0.029 49)" },
+    socialCard: { composition: "signal" },
+  });
+  assert.deepEqual(valid, { valid: true, errors: [] });
+
+  const invalid = validateFlavor(core, {
+    name: "hallouminate",
+    accents: { accent: "oklch(55.7%, 0.153, 45)", accentMuted: "#ffe4ae", accentStrong: "#763909" },
+    socialCard: { composition: "signal" },
+  });
+  assert.ok(invalid.errors.includes("accent accent must be a six-digit hex or oklch() color"));
+});
+
 test("rejects unknown and locked flavor overrides", () => {
   const report = validateFlavor(core, {
     name: "cheeselord",

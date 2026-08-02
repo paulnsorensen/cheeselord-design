@@ -37,11 +37,11 @@
     "access": "public"
   },
   "peerDependencies": {
-    "astro": "^5.0.0 || ^7.0.0",
-    "@astrojs/starlight": "^0.35.0 || ^0.41.0"
+    "@astrojs/starlight": "^0.35.0 || ^0.41.0",
+    "astro": "^5.0.0 || ^7.0.0"
   },
   "devDependencies": {
-    "@fontsource/fraunces": "^5.2.8",
+    "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.2.8",
     "typescript": "^5.9.3"
   },

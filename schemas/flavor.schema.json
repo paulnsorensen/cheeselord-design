@@ -11,13 +11,16 @@
       "additionalProperties": false,
       "required": ["accent", "accentMuted", "accentStrong"],
       "properties": {
-        "accent": { "pattern": "^#[0-9A-Fa-f]{6}$" },
-        "accentMuted": { "pattern": "^#[0-9A-Fa-f]{6}$" },
-        "accentStrong": { "pattern": "^#[0-9A-Fa-f]{6}$" }
+        "accent": { "$ref": "#/$defs/color" },
+        "accentMuted": { "$ref": "#/$defs/color" },
+        "accentStrong": { "$ref": "#/$defs/color" }
       }
     },
     "typography": { "type": "object", "additionalProperties": false },
-    "surfaces": { "type": "object", "additionalProperties": false, "properties": { "paper": { "pattern": "^#[0-9A-Fa-f]{6}$" }, "ink": { "pattern": "^#[0-9A-Fa-f]{6}$" } } },
+    "surfaces": { "type": "object", "additionalProperties": false, "properties": { "paper": { "$ref": "#/$defs/color" }, "ink": { "$ref": "#/$defs/color" } } },
     "socialCard": { "type": "object", "required": ["composition"], "additionalProperties": false, "properties": { "composition": { "enum": ["workshop", "signal", "monument"] } } }
+  },
+  "$defs": {
+    "color": { "pattern": "^(#[0-9A-Fa-f]{6}|oklch\\((\\d{1,2}(\\.\\d+)?|100)% 0(\\.\\d+)? \\d{1,3}(\\.\\d+)?\\))$" }
   }
 }
