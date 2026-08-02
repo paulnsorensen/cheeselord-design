@@ -1,6 +1,6 @@
 {
   "name": "@cheeselord/design",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Shared visual system for Cheese Lord projects",
   "type": "module",
   "exports": {
