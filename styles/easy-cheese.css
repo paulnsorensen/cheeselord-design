@@ -38,6 +38,12 @@
 /* faint cellar glow at the top of the dark field only */
 body { background: radial-gradient(ellipse 60rem 40rem at 50% -10%, light-dark(transparent, oklch(29% 0.03 66 / 55%)), transparent 60%), var(--sl-color-black); }
 
+/* code chips inside links: readable pale-on-deep, never accent tone-on-tone */
+.sl-markdown-content a > code {
+  color: var(--sl-color-accent-high);
+  background: var(--sl-color-accent-low);
+}
+
 /* one serif moment: the page title, full wonk; everything else stays quiet */
 main h1 { font-family: Fraunces, Georgia, serif; font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 560; letter-spacing: -0.035em; text-wrap: balance; }
 .sl-markdown-content :is(h2, h3, h4) { text-wrap: balance; }
