@@ -5,13 +5,15 @@ import test from "node:test";
 const stylesDir = new URL("../dist/styles/", import.meta.url);
 const genericFamilies = new Set(["serif", "sans-serif", "monospace", "system-ui", "ui-sans-serif", "cursive", "fantasy"]);
 
-async function resolveImports(filename, seen = new Set()) {
-  if (seen.has(filename)) return "";
-  seen.add(filename);
-  const content = await readFile(new URL(filename, stylesDir), "utf8");
+// Imports resolve against the importing file, not the styles root: flavors/ and
+// the Starlight themes both ship an `easy-cheese.css`.
+async function resolveImports(fileUrl, seen = new Set()) {
+  if (seen.has(fileUrl.href)) return "";
+  seen.add(fileUrl.href);
+  const content = await readFile(fileUrl, "utf8");
   let resolved = content;
-  for (const match of content.matchAll(/@import\s+"\.\/([^"]+)";/g)) {
-    resolved += await resolveImports(match[1], seen);
+  for (const match of content.matchAll(/@import\s+"([^"]+)";/g)) {
+    resolved += await resolveImports(new URL(match[1], fileUrl), seen);
   }
   return resolved;
 }
@@ -36,7 +38,8 @@ function fontFaces(resolved) {
 
 function referencedFamilies(withoutFontFace) {
   const families = new Set();
-  for (const decl of withoutFontFace.matchAll(/font(?:-family)?:\s*([^;]+);/g)) {
+  // `--mono` counts as a reference: every sheet names the mono face through the token.
+  for (const decl of withoutFontFace.matchAll(/(?:font(?:-family)?|--mono):\s*([^;]+);/g)) {
     for (const quoted of decl[1].matchAll(/"([^"]+)"/g)) families.add(quoted[1]);
     for (const bare of decl[1].replace(/"[^"]*"/g, "").split(",")) {
       const name = bare.trim().split(/\s+/).pop();
@@ -53,19 +56,19 @@ const REQUIRED_FACES = [
 
 test("shared styles self-host fonts and preserve focus and reduced-motion behavior", async () => {
   for (const filename of await styleFiles()) {
-    const resolved = await resolveImports(filename);
+    const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.doesNotMatch(resolved, /fonts\.googleapis\.com/, `${filename} must not load Google Fonts`);
     assert.match(resolved, /prefers-reduced-motion/, `${filename} must respect reduced motion`);
   }
   for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css"]) {
-    const resolved = await resolveImports(filename);
+    const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.match(resolved, /:focus-visible/, `${filename} must define visible keyboard focus`);
   }
 });
 
 test("every theme self-hosts the required font faces it references, resolved on disk", async () => {
   for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css"]) {
-    const resolved = await resolveImports(filename);
+    const resolved = await resolveImports(new URL(filename, stylesDir));
     const withoutFontFace = resolved.replace(/@font-face\s*\{[^}]*\}/g, "");
     const referenced = referencedFamilies(withoutFontFace);
     const faces = fontFaces(resolved);

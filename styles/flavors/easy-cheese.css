@@ -1,0 +1,21 @@
+/* Flavor primitives, standalone. Import alongside cheeselord.css to colour a
+   non-Starlight portal page; styles/easy-cheese.css layers Starlight's mapping
+   on top of the same tokens, so both surfaces move together. */
+@property --cl-paper { syntax: "<color>"; inherits: true; initial-value: #f8f7f3; }
+@property --cl-warm-paper { syntax: "<color>"; inherits: true; initial-value: #efede5; }
+@property --cl-ink { syntax: "<color>"; inherits: true; initial-value: #10140f; }
+@property --cl-panel { syntax: "<color>"; inherits: true; initial-value: #1b1613; }
+@property --cl-amber { syntax: "<color>"; inherits: true; initial-value: #d9a13b; }
+@property --cl-rind { syntax: "<color>"; inherits: true; initial-value: #6f5620; }
+@property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
+
+:root {
+  /* the gouda cellar: espresso-brown field, milk-white by day, one caramel accent */
+  --cl-paper: oklch(97.5% 0.005 95);
+  --cl-warm-paper: oklch(94.8% 0.01 92);
+  --cl-ink: oklch(17.5% 0.012 65);
+  --cl-panel: oklch(from var(--cl-ink) calc(l + 0.03) calc(c * 0.9) calc(h - 10));
+  --cl-amber: oklch(71% 0.14 64);
+  --cl-rind: oklch(46% 0.09 64);
+  --cl-focus: oklch(38.2% 0.138 257);
+}

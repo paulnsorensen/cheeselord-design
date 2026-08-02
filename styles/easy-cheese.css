@@ -1,23 +1,9 @@
 @import "./fonts.css";
 @import "./header.css";
-
-@property --cl-paper { syntax: "<color>"; inherits: true; initial-value: #f8f7f3; }
-@property --cl-warm-paper { syntax: "<color>"; inherits: true; initial-value: #efede5; }
-@property --cl-ink { syntax: "<color>"; inherits: true; initial-value: #10140f; }
-@property --cl-amber { syntax: "<color>"; inherits: true; initial-value: #d9a13b; }
-@property --cl-rind { syntax: "<color>"; inherits: true; initial-value: #6f5620; }
-@property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
+@import "./flavors/easy-cheese.css";
 
 :root {
-  /* the gouda cellar: espresso-brown field, milk-white by day, one caramel accent */
-  --cl-paper: oklch(97.5% 0.005 95);
-  --cl-warm-paper: oklch(94.8% 0.01 92);
-  --cl-ink: oklch(17.5% 0.012 65);
-  --cl-amber: oklch(71% 0.14 64);
-  --cl-rind: oklch(46% 0.09 64);
-  --cl-focus: oklch(38.2% 0.138 257);
-
-  --sl-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sl-font-mono: var(--mono);
 
   --sl-color-accent: light-dark(oklch(from var(--cl-amber) 51% calc(c * 0.9) h), var(--cl-amber));
   --sl-color-accent-low: light-dark(oklch(from var(--cl-amber) 93% calc(c * 0.25) h), oklch(from var(--cl-amber) 28% calc(c * 0.35) h));
@@ -32,7 +18,7 @@
   --sl-color-gray-3: light-dark(oklch(53% 0.014 95), oklch(66% 0.02 95));
   --sl-color-gray-4: light-dark(oklch(65% 0.014 95), oklch(52% 0.018 95));
   --sl-color-gray-5: light-dark(oklch(90% 0.008 95), oklch(28% 0.012 70));
-  --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) calc(l + 0.03) calc(c * 0.9) calc(h - 10)));
+  --sl-color-gray-6: light-dark(var(--cl-warm-paper), var(--cl-panel));
 }
 
 /* faint cellar glow at the top of the dark field only */
@@ -56,9 +42,9 @@ main h1 { font-family: Fraunces, Georgia, serif; font-variation-settings: "SOFT"
 .sl-markdown-content :is(p, li) { text-wrap: pretty; }
 
 /* terminal-native chrome: identity and wayfinding in mono */
-.site-title { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.95rem; letter-spacing: 0.03em; font-weight: 400; }
-.sidebar-content { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.92em; }
-.right-sidebar { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.site-title { font-family: var(--mono); font-size: 0.95rem; letter-spacing: 0.03em; font-weight: 400; }
+.sidebar-content { font-family: var(--mono); font-size: 0.92em; }
+.right-sidebar { font-family: var(--mono); }
 #starlight__on-this-page { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sl-color-gray-3); font-weight: 400; }
 
 @supports (color: contrast-color(red)) {
