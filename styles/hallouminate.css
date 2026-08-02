@@ -1,14 +1,5 @@
 @import "./easy-cheese.css";
-
-:root {
-  /* the night grill: neutral charcoal field, brine white by day, one ember accent */
-  --cl-paper: oklch(97.8% 0.004 80);
-  --cl-warm-paper: oklch(94.8% 0.007 80);
-  --cl-ink: oklch(16.5% 0.006 50);
-  --cl-amber: oklch(72% 0.15 45);
-  --cl-rind: oklch(45% 0.1 42);
-  --cl-focus: oklch(43% 0.141 255);
-}
+@import "./flavors/hallouminate.css";
 
 /* halloumi is cut clean: no wonk */
 main h1 { font-variation-settings: "SOFT" 0, "WONK" 0; }

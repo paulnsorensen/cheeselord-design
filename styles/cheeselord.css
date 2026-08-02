@@ -1,20 +1,26 @@
 @import "./fonts.css";
 @import "./header.css";
 
+/* Shell tokens read the flavor primitives when a styles/flavors/*.css sheet is
+   loaded and fall back to the portal's own cellar green when it is not, so a
+   flavored page needs no re-mapping and no import-order discipline. */
 @property --cellar { syntax: "<color>"; inherits: true; initial-value: #0b0e0c; }
 @property --panel { syntax: "<color>"; inherits: true; initial-value: #10140f; }
 @property --bone { syntax: "<color>"; inherits: true; initial-value: #e9e2d0; }
 @property --dim { syntax: "<color>"; inherits: true; initial-value: #8d8878; }
 @property --gold { syntax: "<color>"; inherits: true; initial-value: #d9a13b; }
+@property --glow { syntax: "<color>"; inherits: true; initial-value: #1c31248c; }
 
 :root {
   color-scheme: dark;
-  --cellar: oklch(16.9% 0.007 156);
-  --panel: oklch(19.5% 0.01 140);
+  --cellar: var(--cl-ink, oklch(16.9% 0.007 156));
+  --panel: var(--cl-panel, oklch(19.5% 0.01 140));
   --bone: oklch(91% 0.021 95);
   --dim: oklch(61% 0.02 95);
-  --gold: oklch(73.5% 0.13 78);
+  --gold: var(--cl-amber, oklch(73.5% 0.13 78));
   --hairline: oklch(from var(--bone) l c h / 13%);
+  /* the ceiling wash above the field: takes the field's own hue, one token to retint */
+  --glow: oklch(from var(--cellar) 29% 0.035 h / 55%);
 }
 * { box-sizing: border-box; margin: 0; }
 body {
@@ -26,10 +32,10 @@ body {
     radial-gradient(circle 1.5px at 68% 78%, oklch(from var(--bone) l c h / 8%) 99%, transparent),
     radial-gradient(circle 2px at 8% 82%, oklch(from var(--bone) l c h / 7%) 99%, transparent),
     radial-gradient(circle 1.5px at 92% 55%, oklch(from var(--gold) l c h / 12%) 99%, transparent),
-    radial-gradient(ellipse 60rem 40rem at 50% -10%, oklch(29% 0.035 157 / 55%), transparent),
+    radial-gradient(ellipse 60rem 40rem at 50% -10%, var(--glow), transparent),
     var(--cellar);
   color: var(--bone);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: var(--mono);
 }
 .wrap { width: min(68rem, calc(100% - 3rem)); margin-inline: auto; }
 

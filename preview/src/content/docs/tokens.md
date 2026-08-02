@@ -19,6 +19,10 @@ Swatches read the CSS custom properties the theme actually ships — if a token 
     <figcaption><code>--cl-ink</code></figcaption>
   </figure>
   <figure style="margin:0;text-align:center">
+    <div style="background:var(--cl-panel);width:5rem;height:5rem;border-radius:0.5rem;border:1px solid var(--sl-color-gray-4)"></div>
+    <figcaption><code>--cl-panel</code></figcaption>
+  </figure>
+  <figure style="margin:0;text-align:center">
     <div style="background:var(--cl-amber);width:5rem;height:5rem;border-radius:0.5rem"></div>
     <figcaption><code>--cl-amber</code></figcaption>
   </figure>

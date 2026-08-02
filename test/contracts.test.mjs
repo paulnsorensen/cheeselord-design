@@ -79,6 +79,54 @@ test("flavor stylesheets carry the shared header styling", async () => {
   assert.match(hallouminate, /@import "\.\/easy-cheese\.css";/);
 });
 
+const styles = (name) => readFile(new URL(`../dist/styles/${name}`, import.meta.url), "utf8");
+
+test("the flavor shell exports primitives a non-Starlight page can consume standalone", async () => {
+  const flavor = await styles("flavors/easy-cheese.css");
+  for (const token of ["--cl-paper", "--cl-warm-paper", "--cl-ink", "--cl-panel", "--cl-amber", "--cl-rind", "--cl-focus"]) {
+    assert.match(flavor, new RegExp(`@property ${token} `), `flavors/easy-cheese.css must register ${token}`);
+    assert.match(flavor, new RegExp(`^  ${token}: `, "m"), `flavors/easy-cheese.css must define ${token}`);
+  }
+  assert.doesNotMatch(flavor, /--sl-/, "the flavor shell must not depend on Starlight's token surface");
+
+  const hallouminate = await styles("flavors/hallouminate.css");
+  assert.match(hallouminate, /@import "\.\/easy-cheese\.css";/);
+  const amber = (stylesheet) => stylesheet.match(/--cl-amber: ([^;]+);/)[1];
+  assert.notEqual(amber(hallouminate), amber(flavor), "hallouminate must override the accent it inherits");
+});
+
+test("flavor primitives have a single producer the Starlight themes import", async () => {
+  const easyCheese = await styles("easy-cheese.css");
+  assert.match(easyCheese, /@import "\.\/flavors\/easy-cheese\.css";/);
+  assert.doesNotMatch(easyCheese, /--cl-ink:/, "primitives belong to flavors/easy-cheese.css, not the Starlight theme");
+
+  const hallouminate = await styles("hallouminate.css");
+  assert.match(hallouminate, /@import "\.\/flavors\/hallouminate\.css";/);
+  assert.doesNotMatch(hallouminate, /--cl-ink:/);
+});
+
+test("the portal shell takes its field, panel, and accent from the flavor tokens", async () => {
+  const portal = await styles("cheeselord.css");
+  assert.match(portal, /--cellar: var\(--cl-ink, .+\);/, "the field must read --cl-ink with a cellar-green fallback");
+  assert.match(portal, /--panel: var\(--cl-panel, .+\);/);
+  assert.match(portal, /--gold: var\(--cl-amber, .+\);/);
+});
+
+test("the portal glow is one overridable token, not a seven-layer background restatement", async () => {
+  const portal = await styles("cheeselord.css");
+  assert.match(portal, /@property --glow /);
+  assert.match(portal, /at 50% -10%, var\(--glow\), transparent\)/);
+});
+
+test("every stylesheet names the mono face through --mono", async () => {
+  assert.match(await styles("fonts.css"), /--mono: "IBM Plex Mono", ui-monospace, monospace;/);
+  assert.match(await styles("cheeselord.css"), /font-family: var\(--mono\);/);
+
+  for (const name of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "header.css", "flavors/easy-cheese.css", "flavors/hallouminate.css"]) {
+    assert.doesNotMatch(await styles(name), /IBM Plex Mono/, `${name} must read --mono instead of restating the mono stack`);
+  }
+});
+
 test("generates a social card at its requested dimensions", () => {
   const card = generateSocialCard({ flavor: "hallouminate", title: "Ground it.", description: "Search knowledge.", dimensions: { width: 1280, height: 640 } });
   assert.equal(card.width, 1280);
