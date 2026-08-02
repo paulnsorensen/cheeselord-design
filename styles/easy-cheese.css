@@ -21,7 +21,9 @@
 
   --sl-color-accent: light-dark(oklch(from var(--cl-amber) 51% calc(c * 0.9) h), var(--cl-amber));
   --sl-color-accent-low: light-dark(oklch(from var(--cl-amber) 93% calc(c * 0.25) h), oklch(from var(--cl-amber) 28% calc(c * 0.35) h));
-  --sl-color-accent-high: light-dark(var(--cl-rind), oklch(from var(--cl-amber) 88% calc(c * 0.5) h));
+  --sl-color-accent-high: light-dark(var(--cl-rind), oklch(from var(--cl-amber) 84% calc(c * 0.7) h));
+  /* links and the current-page marker carry the full accent, matching the shell */
+  --sl-color-text-accent: light-dark(oklch(from var(--cl-amber) 51% calc(c * 0.9) h), var(--cl-amber));
   --sl-color-white: light-dark(oklch(20% 0.008 95), oklch(90.5% 0.021 95));
   --sl-color-black: light-dark(var(--cl-paper), var(--cl-ink));
   /* neutral bone-cast ramp: the accent is the only color allowed to speak */
