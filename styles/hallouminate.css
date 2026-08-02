@@ -1,14 +1,17 @@
 @import "./easy-cheese.css";
 
 :root {
-  --cl-paper: oklch(98.2% 0.014 74);
-  --cl-warm-paper: oklch(92.4% 0.039 76);
-  --cl-ink: oklch(21.8% 0.029 49);
-  --cl-amber: oklch(55.7% 0.153 45);
-  --cl-rind: oklch(37.8% 0.108 41);
+  /* the night grill: neutral charcoal field, brine white by day, one ember accent */
+  --cl-paper: oklch(97.8% 0.004 80);
+  --cl-warm-paper: oklch(94.8% 0.007 80);
+  --cl-ink: oklch(16.5% 0.006 50);
+  --cl-amber: oklch(72% 0.15 45);
+  --cl-rind: oklch(45% 0.1 42);
   --cl-focus: oklch(43% 0.141 255);
 }
 
-h1, h2, h3, .site-title { font-variation-settings: "SOFT" 0, "WONK" 0; }
-body { background: linear-gradient(135deg, oklch(from var(--sl-color-accent) l c h / 12%), transparent 31rem), repeating-linear-gradient(90deg, oklch(100% 0 0 / 2%) 0 1px, transparent 1px 8px), var(--sl-color-black); }
-.sl-markdown-content pre { border: 1px solid oklch(from var(--sl-color-accent) l c h / 35%); box-shadow: inset 3px 0 var(--sl-color-accent); }
+/* halloumi is cut clean: no wonk */
+main h1 { font-variation-settings: "SOFT" 0, "WONK" 0; }
+
+/* grill marks instead of the cellar glow: faint vertical sear lines */
+body { background: repeating-linear-gradient(90deg, light-dark(oklch(from var(--cl-ink) l c h / 4%), oklch(from var(--cl-amber) l c h / 4%)) 0 2px, transparent 2px 16px), var(--sl-color-black); }

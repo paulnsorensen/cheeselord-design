@@ -45,14 +45,16 @@ test("rejects unknown and locked flavor overrides", () => {
   assert.deepEqual(report.errors, ["unknown accent token: forbidden", "locked core token override: focus", "undeclared surface override: focus"]);
 });
 
-test("generates a dark portal with keyboard-navigable project links and GIF fallback", () => {
+test("generates a dark portal with keyboard-navigable project links and the wheel", () => {
   const portal = generatePortal({
     projects: [{ href: "https://example.test/hallouminate", label: "hallouminate", description: "Grounded knowledge." }],
-    hero: { src: "cheeselord.webp", fallbackSrc: "cheeselord.gif", alt: "The Cheese Lord" },
+    version: "0.1.0",
   });
   assert.match(portal.html, /color-scheme" content="dark"/);
   assert.match(portal.html, /href="https:\/\/example.test\/hallouminate"/);
-  assert.match(portal.html, /src="cheeselord.gif"/);
+  assert.match(portal.html, /~\/cellar · 1 wheel</);
+  assert.match(portal.html, /The cellar is open · v0\.1\.0/);
+  assert.match(portal.html, /class="wheel" role="img"/);
 });
 
 test("generates a social card at its requested dimensions", () => {
@@ -81,17 +83,16 @@ test("writes a release manifest with source and output provenance", async () => 
   assert.ok(manifest.fontProvenance && Object.keys(manifest.fontProvenance).length > 0);
 });
 
-test("portal escapes untrusted label/alt text and rejects unsafe href schemes", () => {
+test("portal escapes untrusted label/version text and rejects unsafe href schemes", () => {
   const portal = generatePortal({
     projects: [{ href: "javascript:alert(1)", label: "<script>alert(1)</script>", description: "d" }],
-    hero: { src: "hero.webp", fallbackSrc: "hero.gif", alt: '" onerror=alert(1)' },
+    version: '"><img src=x onerror=alert(1)>',
   });
   assert.doesNotMatch(portal.html, /href="javascript:alert\(1\)"/);
   assert.match(portal.html, /href="#"/);
   assert.doesNotMatch(portal.html, /<script>alert\(1\)<\/script>/);
   assert.match(portal.html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
-  assert.doesNotMatch(portal.html, /alt="" onerror=alert\(1\)"/);
-  assert.match(portal.html, /alt="&quot; onerror=alert\(1\)"/);
+  assert.doesNotMatch(portal.html, /<img src=x onerror=alert\(1\)>/);
 });
 
 test("social card escapes untrusted title and description", () => {
@@ -147,10 +148,7 @@ test("rejects non-finite social card dimensions", () => {
 });
 
 test("portal assets cover every file transitively required to render it", async () => {
-  const portal = generatePortal({
-    projects: [],
-    hero: { src: "hero.webp", fallbackSrc: "hero.gif", alt: "hero" },
-  });
+  const portal = generatePortal({ projects: [] });
 
   const cssRelPath = portal.html.match(/<link rel="stylesheet" href="\.\/([^"]+)">/)[1];
   const distStylesDir = new URL("../dist/styles/", import.meta.url);

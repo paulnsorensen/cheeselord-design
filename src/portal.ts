@@ -4,20 +4,12 @@ export interface ProjectLink {
   description: string;
 }
 
-export interface AnimatedMedia {
-  src: string;
-  alt: string;
-  fallbackSrc: string;
-}
-
 export interface GeneratedPortal {
   html: string;
   /**
    * Every file transitively required to render the portal, as paths relative to the
    * installed package root (e.g. `node_modules/@cheeselord/design/`) — matching the
-   * `dist`/`assets` layout published in `package.json`'s `files`. `hero.src` and
-   * `hero.fallbackSrc` are returned exactly as provided by the caller, since the
-   * portal does not control their base.
+   * `dist`/`assets` layout published in `package.json`'s `files`.
    */
   assets: string[];
 }
@@ -43,14 +35,18 @@ function sanitizeHref(href: string): string {
 
 export function generatePortal(options: {
   projects: ProjectLink[];
-  hero: AnimatedMedia;
+  version?: string;
 }): GeneratedPortal {
-  const projects = options.projects
+  const rows = options.projects
     .map(
       ({ href, label, description }) =>
-        `<li><a href="${sanitizeHref(href)}"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(description)}</span></a></li>`,
+        `<a href="${sanitizeHref(href)}"><strong>${escapeHtml(label)}</strong> <span>${escapeHtml(description)}</span> <i aria-hidden="true">→</i></a>`,
     )
     .join("\n");
+  const count = options.projects.length;
+  const eyebrow = options.version
+    ? `The cellar is open · v${escapeHtml(options.version)}`
+    : "The cellar is open";
 
   return {
     html: `<!doctype html>
@@ -61,21 +57,31 @@ export function generatePortal(options: {
   <meta name="color-scheme" content="dark">
   <title>Cheese Lord</title>
   <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-variable.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/ibm-plex-mono-latin.woff2" crossorigin>
   <link rel="stylesheet" href="./cheeselord.css">
 </head>
 <body>
-  <main>
-    <p class="eyebrow">The cellar is open</p>
-    <h1>Cheese Lord</h1>
-    <p class="lede">Tools and knowledge for working software, aged with intent.</p>
-    <picture>
-      <source srcset="${escapeHtml(options.hero.src)}" type="image/webp">
-      <img src="${escapeHtml(options.hero.fallbackSrc)}" alt="${escapeHtml(options.hero.alt)}" width="960" height="540">
-    </picture>
-    <nav aria-label="Projects"><ul>${projects}</ul></nav>
-  </main>
+<header>
+  <div class="wrap"><span class="brand">cheeselord<b>.dev</b></span></div>
+</header>
+<main>
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">${eyebrow}</p>
+      <h1>The <em>cheese</em> must flow.</h1>
+      <nav class="cellar" aria-label="Projects">
+        <div class="cellar-head">~/cellar · ${count} ${count === 1 ? "wheel" : "wheels"}</div>
+        ${rows}
+      </nav>
+    </div>
+    <div class="wheel-box"><div class="wheel" role="img" aria-label="A wheel of cheese rendered as a grid of golden dots, with three eyes"></div></div>
+  </div>
+</main>
+<footer>
+  <div class="wrap"><span>milk in, wheels out 🧀</span></div>
+</footer>
 </body>
 </html>`,
-    assets: [options.hero.src, options.hero.fallbackSrc, ...stylesheetAssets, ...fontAssets],
+    assets: [...stylesheetAssets, ...fontAssets],
   };
 }
