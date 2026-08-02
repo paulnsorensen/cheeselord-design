@@ -47,6 +47,7 @@ main h1 { font-family: Fraunces, Georgia, serif; font-variation-settings: "SOFT"
 .right-sidebar { font-family: var(--mono); }
 #starlight__on-this-page { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sl-color-gray-3); font-weight: 400; }
 
+::selection { background: var(--sl-color-accent); color: var(--sl-color-black); }
 @supports (color: contrast-color(red)) {
   ::selection { background: var(--sl-color-accent); color: contrast-color(var(--sl-color-accent)); }
 }

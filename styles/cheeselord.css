@@ -1,9 +1,10 @@
 @import "./fonts.css";
 @import "./header.css";
+/* The portal's cellar green is a flavor like any other, imported into a layer so
+   an unlayered styles/flavors/*.css sheet a page loads wins in either import
+   order — a flavored page needs no re-mapping and no import-order discipline. */
+@import "./flavors/cheeselord.css" layer(flavor);
 
-/* Shell tokens read the flavor primitives when a styles/flavors/*.css sheet is
-   loaded and fall back to the portal's own cellar green when it is not, so a
-   flavored page needs no re-mapping and no import-order discipline. */
 @property --cellar { syntax: "<color>"; inherits: true; initial-value: #0b0e0c; }
 @property --panel { syntax: "<color>"; inherits: true; initial-value: #10140f; }
 @property --bone { syntax: "<color>"; inherits: true; initial-value: #e9e2d0; }
@@ -13,11 +14,11 @@
 
 :root {
   color-scheme: dark;
-  --cellar: var(--cl-ink, oklch(16.9% 0.007 156));
-  --panel: var(--cl-panel, oklch(19.5% 0.01 140));
+  --cellar: var(--cl-ink);
+  --panel: var(--cl-panel);
   --bone: oklch(91% 0.021 95);
   --dim: oklch(61% 0.02 95);
-  --gold: var(--cl-amber, oklch(73.5% 0.13 78));
+  --gold: var(--cl-amber);
   --hairline: oklch(from var(--bone) l c h / 13%);
   /* the ceiling wash above the field: takes the field's own hue, one token to retint */
   --glow: oklch(from var(--cellar) 29% 0.035 h / 55%);
@@ -102,6 +103,7 @@ footer { border-block-start: 1px solid var(--hairline); margin-block-start: 4rem
 footer .wrap { padding-block: 1.1rem; font-size: 0.75rem; color: var(--dim); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 footer b { color: var(--gold); font-weight: 400; }
 
+::selection { background: var(--gold); color: var(--cellar); }
 @supports (color: contrast-color(red)) {
   ::selection { background: var(--gold); color: contrast-color(var(--gold)); }
 }

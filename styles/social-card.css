@@ -1,0 +1,77 @@
+@import "./fonts.css";
+
+/* Social cards. The generator links a styles/flavors/*.css sheet before this
+   one, so the --cl-* primitives are set; each composition class is one
+   flavor's frame. Type is sized in container units, so any requested card
+   dimensions keep the proportions. */
+* { box-sizing: border-box; margin: 0; }
+main {
+  --card-bone: oklch(91% 0.021 95);
+  --card-dim: oklch(68% 0.02 95);
+  position: relative;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--cl-ink);
+  color: var(--card-bone);
+  font-family: var(--mono);
+}
+main > * { padding-inline: 8cqi; }
+main > p:first-child { font-size: 2.2cqb; letter-spacing: 0.24em; text-transform: uppercase; color: var(--card-dim); }
+main > p:first-child::before { content: "● "; color: var(--cl-amber); }
+h1 {
+  margin-block: 2.6cqb 3cqb;
+  font-family: Fraunces, Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+  font-weight: 560;
+  font-size: 11.5cqb;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+h1 + p { font-size: 3.1cqb; line-height: 1.55; color: var(--card-dim); max-inline-size: 78cqi; text-wrap: pretty; }
+
+/* fresh-wheel: the workshop — cellar glow, the dot-matrix wheel resting stage right */
+.fresh-wheel { background: radial-gradient(ellipse 80cqi 90cqb at 50% -10%, oklch(from var(--cl-ink) 29% 0.035 h / 55%), transparent), var(--cl-ink); }
+.fresh-wheel > * { max-inline-size: 64cqi; }
+.fresh-wheel::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: -12cqb;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  inline-size: 62cqb;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  --dot: 1.6cqb;
+  background:
+    radial-gradient(circle 8cqb at 63% 58%, var(--cl-ink) 97%, transparent),
+    radial-gradient(circle 4.5cqb at 34% 30%, var(--cl-ink) 97%, transparent),
+    radial-gradient(circle 3cqb at 42% 68%, var(--cl-ink) 97%, transparent),
+    radial-gradient(circle calc(var(--dot) * 0.32), var(--cl-amber) 98%, transparent) 0 0 / var(--dot) var(--dot),
+    transparent;
+  -webkit-mask: radial-gradient(circle closest-side, #000 98%, transparent);
+  mask: radial-gradient(circle closest-side, #000 98%, transparent);
+  filter: drop-shadow(0 0 8cqb oklch(from var(--cl-amber) l c h / 18%));
+}
+
+/* signal-through-the-melt: the night grill — sear lines, cut clean, no wonk */
+.signal-through-the-melt { background: repeating-linear-gradient(90deg, oklch(from var(--cl-amber) l c h / 4%) 0 0.4cqb, transparent 0.4cqb 3.2cqb), var(--cl-ink); }
+.signal-through-the-melt h1 { font-variation-settings: "SOFT" 0, "WONK" 0; }
+
+/* norse-cheese-lord: the monument — constellation dots, type centered and huge */
+.norse-cheese-lord {
+  align-items: center;
+  text-align: center;
+  background:
+    radial-gradient(circle 0.5cqb at 18% 22%, oklch(from var(--cl-amber) l c h / 22%) 99%, transparent),
+    radial-gradient(circle 0.4cqb at 82% 12%, oklch(from var(--card-bone) l c h / 10%) 99%, transparent),
+    radial-gradient(circle 0.4cqb at 68% 78%, oklch(from var(--card-bone) l c h / 8%) 99%, transparent),
+    radial-gradient(circle 0.5cqb at 8% 82%, oklch(from var(--card-bone) l c h / 7%) 99%, transparent),
+    radial-gradient(circle 0.4cqb at 92% 55%, oklch(from var(--cl-amber) l c h / 12%) 99%, transparent),
+    radial-gradient(ellipse 80cqi 70cqb at 50% -10%, oklch(from var(--cl-ink) 29% 0.035 h / 55%), transparent),
+    var(--cl-ink);
+}
+.norse-cheese-lord h1 { font-size: 13cqb; }

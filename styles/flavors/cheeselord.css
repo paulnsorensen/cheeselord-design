@@ -1,0 +1,9 @@
+@import "./easy-cheese.css";
+
+:root {
+  /* the cellar itself: deep green field, bone text, aged-gold accent */
+  --cl-ink: oklch(16.9% 0.007 156);
+  --cl-panel: oklch(19.5% 0.01 140);
+  --cl-amber: oklch(73.5% 0.13 78);
+  --cl-rind: oklch(46% 0.09 78);
+}

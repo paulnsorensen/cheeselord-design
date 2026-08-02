@@ -61,6 +61,26 @@ test("portal enforces the brand invariants: brand is a homelink, tab is 🧀", (
   const portal = generatePortal({ projects: [] });
   assert.match(portal.html, /<a class="brand" href="\/">cheeselord<b>\.dev<\/b><\/a>/);
   assert.match(portal.html, /<title>🧀<\/title>/);
+  assert.match(portal.html, /<link rel="icon" href="data:image\/svg\+xml,[^"]*%F0%9F%A7%80[^"]*">/, "the 🧀 favicon is part of the tab identity");
+});
+
+test("portal head carries a description and OpenGraph identity, og:image only when given", () => {
+  const portal = generatePortal({ projects: [] });
+  assert.match(portal.html, /<meta name="description" content="[^"]+">/);
+  assert.match(portal.html, /<meta property="og:type" content="website">/);
+  assert.match(portal.html, /<meta property="og:title" content="cheeselord\.dev">/);
+  assert.match(portal.html, /<meta property="og:description" content="[^"]+">/);
+  assert.doesNotMatch(portal.html, /og:image/);
+
+  const shared = generatePortal({ projects: [], description: 'A "cellar" of projects', ogImage: "https://cheeselord.dev/og.png" });
+  assert.match(shared.html, /<meta name="description" content="A &quot;cellar&quot; of projects">/);
+  assert.match(shared.html, /<meta property="og:image" content="https:\/\/cheeselord\.dev\/og\.png">/);
+  assert.match(shared.html, /<meta name="twitter:card" content="summary_large_image">/);
+});
+
+test("core contract version tracks the package release", async () => {
+  const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+  assert.equal(core.version, packageJson.version);
 });
 
 test("Brand component renders the breadcrumb homelink cheeselord.dev / <project>", async () => {
@@ -89,10 +109,12 @@ test("the flavor shell exports primitives a non-Starlight page can consume stand
   }
   assert.doesNotMatch(flavor, /--sl-/, "the flavor shell must not depend on Starlight's token surface");
 
-  const hallouminate = await styles("flavors/hallouminate.css");
-  assert.match(hallouminate, /@import "\.\/easy-cheese\.css";/);
   const amber = (stylesheet) => stylesheet.match(/--cl-amber: ([^;]+);/)[1];
-  assert.notEqual(amber(hallouminate), amber(flavor), "hallouminate must override the accent it inherits");
+  for (const name of ["hallouminate", "cheeselord"]) {
+    const overriding = await styles(`flavors/${name}.css`);
+    assert.match(overriding, /@import "\.\/easy-cheese\.css";/);
+    assert.notEqual(amber(overriding), amber(flavor), `${name} must override the accent it inherits`);
+  }
 });
 
 test("flavor primitives have a single producer the Starlight themes import", async () => {
@@ -107,9 +129,15 @@ test("flavor primitives have a single producer the Starlight themes import", asy
 
 test("the portal shell takes its field, panel, and accent from the flavor tokens", async () => {
   const portal = await styles("cheeselord.css");
-  assert.match(portal, /--cellar: var\(--cl-ink, .+\);/, "the field must read --cl-ink with a cellar-green fallback");
-  assert.match(portal, /--panel: var\(--cl-panel, .+\);/);
-  assert.match(portal, /--gold: var\(--cl-amber, .+\);/);
+  assert.match(
+    portal,
+    /@import "\.\/flavors\/cheeselord\.css" layer\(flavor\);/,
+    "the portal's own cellar green is a flavor sheet, imported into a layer so an unlayered flavor import wins in either order",
+  );
+  assert.match(portal, /--cellar: var\(--cl-ink\);/, "the field must read --cl-ink");
+  assert.match(portal, /--panel: var\(--cl-panel\);/);
+  assert.match(portal, /--gold: var\(--cl-amber\);/);
+  assert.doesNotMatch(portal, /--cl-ink:/, "primitives belong to flavors/cheeselord.css, not the shell");
 });
 
 test("the portal glow is one overridable token, not a seven-layer background restatement", async () => {
@@ -122,7 +150,7 @@ test("every stylesheet names the mono face through --mono", async () => {
   assert.match(await styles("fonts.css"), /--mono: "IBM Plex Mono", ui-monospace, monospace;/);
   assert.match(await styles("cheeselord.css"), /font-family: var\(--mono\);/);
 
-  for (const name of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "header.css", "flavors/easy-cheese.css", "flavors/hallouminate.css"]) {
+  for (const name of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "header.css", "social-card.css", "flavors/easy-cheese.css", "flavors/hallouminate.css", "flavors/cheeselord.css"]) {
     assert.doesNotMatch(await styles(name), /IBM Plex Mono/, `${name} must read --mono instead of restating the mono stack`);
   }
 });
@@ -217,36 +245,51 @@ test("rejects non-finite social card dimensions", () => {
   );
 });
 
+const distStylesDir = new URL("../dist/styles/", import.meta.url);
+const packageRoot = new URL("../", import.meta.url);
+const packagePath = (fileUrl) => relative(fileURLToPath(packageRoot), fileURLToPath(fileUrl));
+
+// Imports resolve against the importing file, not the styles root: flavors/ and
+// the Starlight themes both ship an `easy-cheese.css`.
+async function requiredAssets(fileUrl, required = new Set(), seen = new Set()) {
+  if (seen.has(fileUrl.href)) return required;
+  seen.add(fileUrl.href);
+  required.add(packagePath(fileUrl));
+  const content = await readFile(fileUrl, "utf8");
+  for (const match of content.matchAll(/@import\s+"([^"]+)"[^;]*;/g)) {
+    await requiredAssets(new URL(match[1], fileUrl), required, seen);
+  }
+  for (const match of content.matchAll(/url\("([^"]+)"\)/g)) {
+    required.add(packagePath(new URL(match[1], fileUrl)));
+  }
+  return required;
+}
+
 test("portal assets cover every file transitively required to render it", async () => {
   const portal = generatePortal({ projects: [] });
 
   const cssRelPath = portal.html.match(/<link rel="stylesheet" href="\.\/([^"]+)">/)[1];
-  const distStylesDir = new URL("../dist/styles/", import.meta.url);
-  const packageRoot = new URL("../", import.meta.url);
-
-  async function resolveCss(filename, seen = new Set()) {
-    if (seen.has(filename)) return "";
-    seen.add(filename);
-    const content = await readFile(new URL(filename, distStylesDir), "utf8");
-    let resolved = content;
-    for (const match of content.matchAll(/@import\s+"\.\/([^"]+)";/g)) {
-      resolved += await resolveCss(match[1], seen);
-    }
-    return resolved;
-  }
-
-  const resolved = await resolveCss(cssRelPath);
-  const required = new Set([`dist/styles/${cssRelPath}`]);
-  for (const match of resolved.matchAll(/@import\s+"\.\/([^"]+)";/g)) {
-    required.add(`dist/styles/${match[1]}`);
-  }
-  for (const match of resolved.matchAll(/url\("([^"]+)"\)/g)) {
-    const resolvedUrl = new URL(match[1], distStylesDir);
-    required.add(relative(fileURLToPath(packageRoot), fileURLToPath(resolvedUrl)));
-  }
+  const required = await requiredAssets(new URL(cssRelPath, distStylesDir));
 
   for (const path of required) {
     assert.ok(portal.assets.includes(path), `assets missing ${path}`);
     await access(new URL(path, packageRoot));
+  }
+});
+
+test("social card assets cover every file transitively required to render it", async () => {
+  for (const flavor of ["easy-cheese", "hallouminate", "cheeselord"]) {
+    const card = generateSocialCard({ flavor, title: "t", description: "d", dimensions: { width: 1200, height: 630 } });
+
+    const linked = [...card.html.matchAll(/<link rel="stylesheet" href="\.\/([^"]+)">/g)].map((match) => match[1]);
+    assert.deepEqual(linked, [`flavors/${flavor}.css`, "social-card.css"], "the flavor primitives must load before the card sheet");
+
+    const required = new Set();
+    for (const filename of linked) await requiredAssets(new URL(filename, distStylesDir), required);
+
+    for (const path of required) {
+      assert.ok(card.assets.includes(path), `${flavor} assets missing ${path}`);
+      await access(new URL(path, packageRoot));
+    }
   }
 });
