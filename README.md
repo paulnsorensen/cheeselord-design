@@ -20,6 +20,8 @@ Use a site-local bridge for documented Starlight component override paths. The b
 
 `npm run build` emits `dist/release-manifest.json`. Its version, source commit, input hashes, and output hashes must agree with the matching GitHub release assets. The package publishes publicly; the release workflow must use npm 2FA or trusted publishing.
 
+Publishing is automated by `.github/workflows/publish.yml` via npm OIDC trusted publishing: cut a GitHub release tagged `v<version>` (matching `package.json`, enforced by the workflow) and the job tests and publishes with provenance — no token or OTP in CI. One-time prerequisite: on npmjs.com, add a trusted publisher to the package (GitHub Actions · `paulnsorensen/cheeselord-design` · workflow `publish.yml`).
+
 Set `SOURCE_COMMIT=<40-hex-sha>` to pin the manifest's `sourceCommit` explicitly (an invalid value throws); without it, the build reads `git rev-parse HEAD` and falls back to a `0`-filled sentinel commit when no `.git` directory is present (GitHub "Download ZIP", vendored source, `COPY . .` Docker builds).
 
 Fonts are shipped as pinned WOFF2 files under `assets/fonts/`. No style requests a runtime Google Fonts asset.
