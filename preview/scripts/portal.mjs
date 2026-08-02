@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { generatePortal } from '@cheeselord/design/portal';
+import { previewFlavors } from './flavor.mjs';
 
 const previewRoot = fileURLToPath(new URL('..', import.meta.url));
 const pkgRoot = dirname(createRequire(import.meta.url).resolve('@cheeselord/design/package.json'));
@@ -11,8 +12,11 @@ const site = join(previewRoot, 'dist', 'portal', 'site');
 const hero = { src: './hero.svg', fallbackSrc: './hero.svg', alt: 'Cheese wheel aging in a cellar' };
 const { html, assets } = generatePortal({
   projects: [
-    { href: '../../easy-cheese/', label: 'easy-cheese', description: 'Starlight preview — easy-cheese flavor' },
-    { href: '../../hallouminate/', label: 'hallouminate', description: 'Starlight preview — hallouminate flavor' },
+    ...previewFlavors.map((flavor) => ({
+      href: `../../${flavor}/`,
+      label: flavor,
+      description: `Starlight preview — ${flavor} flavor`,
+    })),
     { href: 'https://github.com/paulnsorensen/cheeselord-design', label: 'cheeselord-design', description: 'The shared visual package' },
   ],
   hero,
@@ -26,10 +30,10 @@ await writeFile(
 );
 
 for (const asset of assets) {
-  if (asset === hero.src || asset === hero.fallbackSrc) continue;
+  if (asset === hero.src) continue;
   const dest = asset.startsWith('dist/styles/')
     ? join(site, asset.slice('dist/styles/'.length))
-    : join(previewRoot, 'dist', 'portal', asset);
+    : join(previewRoot, 'dist', asset);
   await mkdir(dirname(dest), { recursive: true });
   await cp(join(pkgRoot, asset), dest);
 }

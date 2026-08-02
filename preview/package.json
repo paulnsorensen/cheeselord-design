@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "PREVIEW_FLAVOR=easy-cheese astro build && PREVIEW_FLAVOR=hallouminate astro build && node scripts/portal.mjs",
-    "serve": "python3 -m http.server 4322 --directory dist"
+    "build": "node scripts/clean.mjs && PREVIEW_FLAVOR=easy-cheese astro build && PREVIEW_FLAVOR=hallouminate astro build && node scripts/portal.mjs",
+    "serve": "python3 -m http.server 4322 --directory dist",
+    "test": "node --test test/*.test.mjs"
   },
   "devDependencies": {
     "@astrojs/starlight": "^0.41.3",
