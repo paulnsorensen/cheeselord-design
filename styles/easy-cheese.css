@@ -9,12 +9,12 @@
 @property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
 
 :root {
-  /* the lit cellar: near-black green-cast field, milk-white by day, one gold accent */
+  /* the gouda cellar: espresso-brown field, milk-white by day, one caramel accent */
   --cl-paper: oklch(97.5% 0.005 95);
   --cl-warm-paper: oklch(94.8% 0.01 92);
-  --cl-ink: oklch(17.5% 0.01 156);
-  --cl-amber: oklch(73.5% 0.13 78);
-  --cl-rind: oklch(46% 0.09 76);
+  --cl-ink: oklch(17.5% 0.012 65);
+  --cl-amber: oklch(71% 0.14 64);
+  --cl-rind: oklch(46% 0.09 64);
   --cl-focus: oklch(38.2% 0.138 257);
 
   --sl-font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -29,12 +29,12 @@
   --sl-color-gray-2: light-dark(oklch(40% 0.012 95), oklch(80% 0.02 95));
   --sl-color-gray-3: light-dark(oklch(53% 0.014 95), oklch(66% 0.02 95));
   --sl-color-gray-4: light-dark(oklch(65% 0.014 95), oklch(52% 0.018 95));
-  --sl-color-gray-5: light-dark(oklch(90% 0.008 95), oklch(28% 0.012 130));
+  --sl-color-gray-5: light-dark(oklch(90% 0.008 95), oklch(28% 0.012 70));
   --sl-color-gray-6: light-dark(var(--cl-warm-paper), oklch(from var(--cl-ink) calc(l + 0.03) calc(c * 0.9) calc(h - 10)));
 }
 
 /* faint cellar glow at the top of the dark field only */
-body { background: radial-gradient(ellipse 60rem 40rem at 50% -10%, light-dark(transparent, oklch(29% 0.035 157 / 55%)), transparent 60%), var(--sl-color-black); }
+body { background: radial-gradient(ellipse 60rem 40rem at 50% -10%, light-dark(transparent, oklch(29% 0.03 66 / 55%)), transparent 60%), var(--sl-color-black); }
 
 /* one serif moment: the page title, full wonk; everything else stays quiet */
 main h1 { font-family: Fraunces, Georgia, serif; font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 560; letter-spacing: -0.035em; text-wrap: balance; }
