@@ -89,6 +89,7 @@ h1 em { font-style: normal; color: var(--gold); }
   .wheel { inline-size: min(15rem, 70%); }
   .cellar a { grid-template-columns: 1fr auto; }
   .cellar a span { grid-column: 1 / -1; }
+  .cellar a i { grid-row: 1; grid-column: 2; }
 }
 
 footer { border-block-start: 1px solid var(--hairline); margin-block-start: 4rem; }
