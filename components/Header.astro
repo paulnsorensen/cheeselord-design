@@ -1,4 +1,6 @@
 ---
+import Brand from "./Brand.astro";
+
 interface Props {
   /** Project segment of the breadcrumb brand: `cheeselord.dev / <project>`. */
   project: string;
@@ -6,12 +8,10 @@ interface Props {
   projectHref?: string;
 }
 
-const { project, projectHref = "/" } = Astro.props;
+const { project, projectHref } = Astro.props;
 ---
 <header class="cheeselord-header">
-  <span class="brand">
-    <a href="https://cheeselord.dev/">cheeselord<b>.dev</b></a><span class="brand-sep" aria-hidden="true">/</span><a href={projectHref}>{project}</a>
-  </span>
+  <Brand project={project} projectHref={projectHref} />
   <slot />
   <slot name="actions" />
 </header>

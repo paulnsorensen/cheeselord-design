@@ -63,11 +63,13 @@ test("portal enforces the brand invariants: brand is a homelink, tab is 🧀", (
   assert.match(portal.html, /<title>🧀<\/title>/);
 });
 
-test("Header component renders the breadcrumb homelink cheeselord.dev / <project>", async () => {
-  const source = await readFile(new URL("../components/Header.astro", import.meta.url), "utf8");
-  assert.match(source, /href="https:\/\/cheeselord\.dev\/"/);
-  assert.match(source, /cheeselord<b>\.dev<\/b>/);
-  assert.match(source, /\{project\}/);
+test("Brand component renders the breadcrumb homelink cheeselord.dev / <project>", async () => {
+  const brand = await readFile(new URL("../components/Brand.astro", import.meta.url), "utf8");
+  assert.match(brand, /href="https:\/\/cheeselord\.dev\/"/);
+  assert.match(brand, /cheeselord<b>\.dev<\/b>/);
+  assert.match(brand, /\{project\}/);
+  const header = await readFile(new URL("../components/Header.astro", import.meta.url), "utf8");
+  assert.match(header, /import Brand from "\.\/Brand\.astro"/);
 });
 
 test("flavor stylesheets carry the shared header styling", async () => {
