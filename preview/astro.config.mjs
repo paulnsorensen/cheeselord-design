@@ -2,15 +2,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { cheeselordTheme } from '@cheeselord/design/starlight';
+import { resolvePreviewPaths } from './scripts/flavor.mjs';
 
-const flavor = process.env.PREVIEW_FLAVOR ?? 'easy-cheese';
-if (flavor !== 'easy-cheese' && flavor !== 'hallouminate') {
-  throw new Error(`PREVIEW_FLAVOR must be easy-cheese or hallouminate, got: ${flavor}`);
-}
+const { flavor, base, outDir } = resolvePreviewPaths(process.env);
 
 export default defineConfig({
-  outDir: `dist/${flavor}`,
-  base: `/${flavor}`,
+  outDir,
+  base,
   integrations: [
     starlight({
       title: `Cheeselord Design — ${flavor}`,
