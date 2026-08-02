@@ -15,7 +15,7 @@ export interface GeneratedPortal {
 }
 
 const fontAssets = ["assets/fonts/fraunces-latin-variable.woff2", "assets/fonts/ibm-plex-mono-latin.woff2"];
-const stylesheetAssets = ["dist/styles/fonts.css", "dist/styles/cheeselord.css"];
+const stylesheetAssets = ["dist/styles/fonts.css", "dist/styles/header.css", "dist/styles/cheeselord.css"];
 
 function escapeHtml(value: string): string {
   return value
@@ -55,14 +55,14 @@ export function generatePortal(options: {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Cheese Lord</title>
+  <title>🧀</title>
   <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/ibm-plex-mono-latin.woff2" crossorigin>
   <link rel="stylesheet" href="./cheeselord.css">
 </head>
 <body>
 <header>
-  <div class="wrap"><span class="brand">cheeselord<b>.dev</b></span></div>
+  <div class="wrap"><a class="brand" href="/">cheeselord<b>.dev</b></a></div>
 </header>
 <main>
   <div class="wrap">

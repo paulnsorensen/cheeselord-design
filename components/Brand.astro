@@ -1,0 +1,13 @@
+---
+interface Props {
+  /** Project segment of the breadcrumb brand: `cheeselord.dev / <project>`. */
+  project: string;
+  /** Where the project segment links; defaults to this site's root. */
+  projectHref?: string;
+}
+
+const { project, projectHref = "/" } = Astro.props;
+---
+<span class="brand">
+  <a href="https://cheeselord.dev/">cheeselord<b>.dev</b></a><span class="brand-sep" aria-hidden="true">/</span><a href={projectHref}>{project}</a>
+</span>

@@ -1,12 +1,17 @@
 ---
+import Brand from "./Brand.astro";
+
 interface Props {
-  title?: string;
+  /** Project segment of the breadcrumb brand: `cheeselord.dev / <project>`. */
+  project: string;
+  /** Where the project segment links; defaults to this site's root. */
+  projectHref?: string;
 }
 
-const { title = "Cheese Lord" } = Astro.props;
+const { project, projectHref } = Astro.props;
 ---
 <header class="cheeselord-header">
-  <a href="/" aria-label={`${title} home`}>{title}</a>
+  <Brand project={project} projectHref={projectHref} />
   <slot />
   <slot name="actions" />
 </header>
