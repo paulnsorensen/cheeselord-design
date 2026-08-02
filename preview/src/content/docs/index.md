@@ -5,9 +5,9 @@ description: Dogfood preview of the shared visual system.
 
 Body text with **bold**, *italic*, `inline code`, and [a link](tokens/).
 
-## Headings render in Fraunces
+## One serif moment
 
-Paragraphs, captions, and UI chrome inherit the flavor surfaces; code renders in IBM Plex Mono.
+The page title renders in Fraunces; body and headings stay quiet, and wayfinding chrome is IBM Plex Mono.
 
 ### Lists
 
