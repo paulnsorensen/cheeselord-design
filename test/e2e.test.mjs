@@ -12,7 +12,7 @@ async function resolveImports(fileUrl, seen = new Set()) {
   seen.add(fileUrl.href);
   const content = await readFile(fileUrl, "utf8");
   let resolved = content;
-  for (const match of content.matchAll(/@import\s+"([^"]+)";/g)) {
+  for (const match of content.matchAll(/@import\s+"([^"]+)"[^;]*;/g)) {
     resolved += await resolveImports(new URL(match[1], fileUrl), seen);
   }
   return resolved;
@@ -67,7 +67,7 @@ test("shared styles self-host fonts and preserve focus and reduced-motion behavi
 });
 
 test("every theme self-hosts the required font faces it references, resolved on disk", async () => {
-  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css"]) {
+  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "social-card.css"]) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     const withoutFontFace = resolved.replace(/@font-face\s*\{[^}]*\}/g, "");
     const referenced = referencedFamilies(withoutFontFace);

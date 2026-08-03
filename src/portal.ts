@@ -15,7 +15,16 @@ export interface GeneratedPortal {
 }
 
 const fontAssets = ["assets/fonts/fraunces-latin-variable.woff2", "assets/fonts/ibm-plex-mono-latin.woff2"];
-const stylesheetAssets = ["dist/styles/fonts.css", "dist/styles/header.css", "dist/styles/cheeselord.css"];
+const stylesheetAssets = [
+  "dist/styles/fonts.css",
+  "dist/styles/header.css",
+  "dist/styles/flavors/easy-cheese.css",
+  "dist/styles/flavors/cheeselord.css",
+  "dist/styles/cheeselord.css",
+];
+
+/* the 🧀 tab identity (AGENTS.md brand invariant #2), self-contained so no icon asset ships */
+const favicon = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text x=%228%22 y=%2213%22 font-size=%2213%22 text-anchor=%22middle%22>%F0%9F%A7%80</text></svg>";
 
 function escapeHtml(value: string): string {
   return value
@@ -36,6 +45,10 @@ function sanitizeHref(href: string): string {
 export function generatePortal(options: {
   projects: ProjectLink[];
   version?: string;
+  /** Meta/OpenGraph description; defaults to the cellar line. */
+  description?: string;
+  /** Absolute URL of a social-card image; emitted as og:image when given. */
+  ogImage?: string;
 }): GeneratedPortal {
   const rows = options.projects
     .map(
@@ -47,6 +60,10 @@ export function generatePortal(options: {
   const eyebrow = options.version
     ? `The cellar is open · v${escapeHtml(options.version)}`
     : "The cellar is open";
+  const description = escapeHtml(options.description ?? "The cellar is open — milk in, wheels out. Projects of the Cheese Lord.");
+  const ogImage = options.ogImage
+    ? `\n  <meta property="og:image" content="${escapeHtml(options.ogImage)}">\n  <meta name="twitter:card" content="summary_large_image">`
+    : "";
 
   return {
     html: `<!doctype html>
@@ -56,6 +73,11 @@ export function generatePortal(options: {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <title>🧀</title>
+  <meta name="description" content="${description}">
+  <link rel="icon" href="${favicon}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cheeselord.dev">
+  <meta property="og:description" content="${description}">${ogImage}
   <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/fraunces-latin-variable.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="../../assets/fonts/ibm-plex-mono-latin.woff2" crossorigin>
   <link rel="stylesheet" href="./cheeselord.css">

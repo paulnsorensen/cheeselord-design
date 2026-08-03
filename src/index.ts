@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { flavorNames, type FlavorName } from "./flavor.js";
 
 export { flavorNames };
@@ -29,8 +30,11 @@ const isColor = (value: string) => hexColor.test(value) || oklchColor.test(value
 const allowedAccents = new Set(["accent", "accentMuted", "accentStrong"]);
 const allowedSurfaces = new Set(["paper", "ink"]);
 
+/* the core contract is versioned by the package release itself, so it can never drift */
+const { version } = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")) as { version: string };
+
 export const core: CoreDefinition = {
-  version: "0.1.0",
+  version,
   lockedTokens: ["focus", "motion", "spacing", "state"],
   minimumContrast: 4.5,
 };

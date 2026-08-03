@@ -25,12 +25,20 @@ import "@cheeselord/design/styles/cheeselord.css";
 import "@cheeselord/design/styles/flavors/easy-cheese.css";
 ```
 
-The shell reads the flavor primitives itself — `--cellar` is `var(--cl-ink, …)`, `--panel` is `var(--cl-panel, …)`, `--gold` is `var(--cl-amber, …)` — so the page re-maps nothing, the two imports work in either order, and `cheeselord.css` alone still renders the portal's own cellar green. `styles/flavors/*.css` is the single producer of the `--cl-*` tokens; the Starlight themes import the same file, so a released token change moves docs pages and portal pages together.
+The shell's own cellar green is a flavor like any other: `cheeselord.css` imports `styles/flavors/cheeselord.css` into a CSS cascade layer, and because unlayered declarations outrank layered ones, a flavor sheet the page adds wins in either import order — the page re-maps nothing, and `cheeselord.css` alone still renders cellar green. `styles/flavors/*.css` is the single producer of the `--cl-*` tokens; the Starlight themes import the same files, so a released token change moves docs pages, portal pages, and social cards together.
 
 Two shell tokens exist so a page never has to restate a shorthand:
 
 - `--glow` is the ceiling wash inside the `body` background's seven layers. It defaults to the field's own hue (`oklch(from var(--cellar) 29% 0.035 h / 55%)`), so a flavored page arrives retinted; override the one token to tune it instead of repeating every layer.
 - `--mono` names the identity face once, in `styles/fonts.css`. Every stylesheet here reads it and Starlight's `--sl-font-mono` is set from it, so a face swap is a one-token edit.
+
+## Social cards
+
+`generateSocialCard({ flavor, title, description, dimensions })` returns the card HTML plus an `assets` list of every file it needs, mirroring `generatePortal`. The HTML links the flavor primitives first, then `styles/social-card.css`, whose three compositions map one per flavor: `fresh-wheel` (easy-cheese, the wheel stage right), `signal-through-the-melt` (hallouminate, sear lines, no wonk), and `norse-cheese-lord` (cheeselord, centered on the constellation field). Type is sized in container units, so any requested dimensions keep the proportions. Place the HTML next to the copied assets (the `dist/styles/` layout), screenshot at `width`×`height`, and hand the resulting URL to `generatePortal({ ogImage })` for the matching `og:image` tag.
+
+## Guarantees
+
+`npm run check` enforces the style contracts mechanically: no runtime Google Fonts, visible `:focus-visible`, reduced-motion behavior in every sheet, `core.version` equal to the package version, and — for every flavor, in both modes — the text and accent token pairs holding `core.minimumContrast` (4.5:1). Set `CONTRAST_VERBOSE=1` to print the computed ratios.
 
 ## Releases
 
