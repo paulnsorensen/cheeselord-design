@@ -30,3 +30,14 @@ jobs:
         run: npm test
       - name: Pack
         run: npm run pack:check
+
+      # The preview is the only consumer that exercises the published portal and
+      # the Starlight integration end to end. Its own workflow runs on pushes to
+      # main, which is too late — a broken portal reference reached main and sat
+      # there. Run it here so a pull request catches it.
+      - name: Install preview
+        run: npm install
+        working-directory: preview
+      - name: Test preview
+        run: npm test
+        working-directory: preview
