@@ -35,10 +35,31 @@ async function readResolved(filename, seen = new Set()) {
   return resolved;
 }
 
-for (const filename of ["styles/easy-cheese.css", "styles/cheeselord.css"]) {
+// Every sheet that renders a page must respect reduced motion; the interactive
+// ones must also show keyboard focus. Social cards are static images with no
+// focus to show, and styles/flavors/*.css declare tokens and no rules at all.
+for (const filename of ["styles/easy-cheese.css", "styles/hallouminate.css", "styles/cheeselord.css", "styles/social-card.css"]) {
   const stylesheet = await readResolved(filename);
-  if (!stylesheet.includes(":focus-visible")) throw new Error(`${filename} must define visible keyboard focus`);
   if (!stylesheet.includes("prefers-reduced-motion")) throw new Error(`${filename} must respect reduced motion`);
+  if (filename === "styles/social-card.css") continue;
+  if (!stylesheet.includes(":focus-visible")) throw new Error(`${filename} must define visible keyboard focus`);
+}
+
+// A colored literal outside styles/flavors/ is a value that stopped tracking its
+// flavor: retint the primitives and it stays behind. Neutrals (the bone ramp and
+// hairline fallbacks, chroma <= 0.025) may be literal; anything with real color
+// must be written relative to a primitive so coherence holds by construction.
+const NEUTRAL_CHROMA = 0.025;
+for (const filename of ["styles/cheeselord.css", "styles/easy-cheese.css", "styles/hallouminate.css", "styles/social-card.css", "styles/header.css"]) {
+  const stylesheet = await readFile(filename, "utf8");
+  for (const [literal, channels] of stylesheet.matchAll(/oklch\(([^()]*)\)/g)) {
+    if (channels.startsWith("from ")) continue;
+    const chroma = Number(splitTopLevel(channels)[1]);
+    if (!Number.isFinite(chroma)) throw new Error(`${filename}: cannot read the chroma of ${literal}`);
+    if (chroma > NEUTRAL_CHROMA) {
+      throw new Error(`${filename}: ${literal} is a colored literal — derive it from a --cl-* primitive with oklch(from …)`);
+    }
+  }
 }
 
 // The core contract is versioned by the package release itself.
@@ -182,6 +203,10 @@ for (const flavor of ["easy-cheese", "hallouminate"]) {
     assertContrast(filename, tokens, token, "--sl-color-black", "light");
     assertContrast(filename, tokens, token, "--sl-color-black", "dark");
   }
+  // Linked code chips paint accent-high on accent-low, so that pair is a text
+  // surface of its own and does not sit on the field the loop above checks.
+  assertContrast(filename, tokens, "--sl-color-accent-high", "--sl-color-accent-low", "light");
+  assertContrast(filename, tokens, "--sl-color-accent-high", "--sl-color-accent-low", "dark");
 }
 
 // The portal shell and the social cards live on the dark field only.

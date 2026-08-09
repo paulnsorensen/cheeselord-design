@@ -27,10 +27,11 @@ import "@cheeselord/design/styles/flavors/easy-cheese.css";
 
 The shell's own cellar green is a flavor like any other: `cheeselord.css` imports `styles/flavors/cheeselord.css` into a CSS cascade layer, and because unlayered declarations outrank layered ones, a flavor sheet the page adds wins in either import order — the page re-maps nothing, and `cheeselord.css` alone still renders cellar green. `styles/flavors/*.css` is the single producer of the `--cl-*` tokens; the Starlight themes import the same files, so a released token change moves docs pages, portal pages, and social cards together.
 
-Two shell tokens exist so a page never has to restate a shorthand:
+Three tokens exist so a page never has to restate a shorthand:
 
-- `--glow` is the ceiling wash inside the `body` background's seven layers. It defaults to the field's own hue (`oklch(from var(--cellar) 29% 0.035 h / 55%)`), so a flavored page arrives retinted; override the one token to tune it instead of repeating every layer.
+- `--glow` is the ceiling wash inside the `body` background's seven layers. It defaults to the field's own hue (`oklch(from var(--cellar) 29% 0.035 h / 55%)`), so a flavored page arrives retinted; override the one token to tune it instead of repeating every layer. The Starlight themes declare their own `--glow` the same way, suppressed to `transparent` in light mode.
 - `--mono` names the identity face once, in `styles/fonts.css`. Every stylesheet here reads it and Starlight's `--sl-font-mono` is set from it, so a face swap is a one-token edit.
+- `--cl-bone` and `--cl-dim` are the neutral ramp. Both take their hue from `--cl-ink`, so the text reads as the same material as the field rather than a grey imported into it; the portal's `--bone`/`--dim`, the social card's `--card-bone`/`--card-dim`, and every step of Starlight's `--sl-color-white`/`--sl-color-gray-*` ramp are derived from them. Retinting `--cl-ink` moves all three surfaces at once.
 
 ## Social cards
 
@@ -38,7 +39,15 @@ Two shell tokens exist so a page never has to restate a shorthand:
 
 ## Guarantees
 
-`npm run check` enforces the style contracts mechanically: no runtime Google Fonts, visible `:focus-visible`, reduced-motion behavior in every sheet, `core.version` equal to the package version, and — for every flavor, in both modes — the text and accent token pairs holding `core.minimumContrast` (4.5:1). Set `CONTRAST_VERBOSE=1` to print the computed ratios.
+`npm run check` enforces the style contracts mechanically, and CI runs it on every pull request and every push to `main` as well as before publish:
+
+- no runtime Google Fonts in any stylesheet or component;
+- visible `:focus-visible` in each theme and the portal shell, and reduced-motion behavior in every sheet that renders a page;
+- no colored literal (chroma above 0.025) outside `styles/flavors/`, so a value cannot stop tracking its flavor — write it as `oklch(from var(--cl-…) …)` instead;
+- `core.version` equal to the package version;
+- for every flavor, in both modes, the text and accent token pairs holding `core.minimumContrast` (4.5:1) — including linked code chips, which paint `--sl-color-accent-high` on `--sl-color-accent-low` rather than on the field.
+
+Set `CONTRAST_VERBOSE=1` to print the computed ratios.
 
 ## Releases
 

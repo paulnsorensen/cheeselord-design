@@ -16,7 +16,6 @@
         "accentStrong": { "$ref": "#/$defs/color" }
       }
     },
-    "typography": { "type": "object", "additionalProperties": false },
     "surfaces": { "type": "object", "additionalProperties": false, "properties": { "paper": { "$ref": "#/$defs/color" }, "ink": { "$ref": "#/$defs/color" } } },
     "socialCard": { "type": "object", "required": ["composition"], "additionalProperties": false, "properties": { "composition": { "enum": ["workshop", "signal", "monument"] } } }
   },

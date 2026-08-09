@@ -34,6 +34,8 @@ jobs:
           fi
       - name: Install and build (npm ci runs the prepare build)
         run: npm ci
+      - name: Check
+        run: npm run check
       - name: Test
         run: npm test
       - name: Publish
