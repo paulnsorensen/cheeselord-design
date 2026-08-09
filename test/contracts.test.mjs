@@ -103,7 +103,7 @@ const styles = (name) => readFile(new URL(`../dist/styles/${name}`, import.meta.
 
 test("the flavor shell exports primitives a non-Starlight page can consume standalone", async () => {
   const flavor = await styles("flavors/easy-cheese.css");
-  for (const token of ["--cl-paper", "--cl-warm-paper", "--cl-ink", "--cl-panel", "--cl-amber", "--cl-rind", "--cl-focus"]) {
+  for (const token of ["--cl-paper", "--cl-warm-paper", "--cl-ink", "--cl-panel", "--cl-amber", "--cl-rind", "--cl-bone", "--cl-dim"]) {
     assert.match(flavor, new RegExp(`@property ${token} `), `flavors/easy-cheese.css must register ${token}`);
     assert.match(flavor, new RegExp(`^  ${token}: `, "m"), `flavors/easy-cheese.css must define ${token}`);
   }
@@ -144,6 +144,47 @@ test("the portal glow is one overridable token, not a seven-layer background res
   const portal = await styles("cheeselord.css");
   assert.match(portal, /@property --glow /);
   assert.match(portal, /at 50% -10%, var\(--glow\), transparent\)/);
+});
+
+test("the docs glow is a token derived from the flavor, not a frozen hue", async () => {
+  const docs = await styles("easy-cheese.css");
+  assert.match(docs, /--glow: oklch\(from var\(--cl-ink\) 29% 0\.035 h \/ 55%\);/);
+  assert.match(docs, /at 50% -10%, light-dark\(transparent, var\(--glow\)\)/);
+});
+
+test("the neutral ramp is derived from the flavor, not restated per surface", async () => {
+  const bone = /--cl-bone: oklch\(from var\(--cl-ink\) 91% 0\.021 h\);/;
+  assert.match(await styles("flavors/easy-cheese.css"), bone, "bone must take the flavor's own hue");
+
+  // The three surfaces that used to carry their own bone/dim literals.
+  assert.match(await styles("cheeselord.css"), /--bone: var\(--cl-bone\);\n\s*--dim: var\(--cl-dim\);/);
+  assert.match(await styles("social-card.css"), /--card-bone: var\(--cl-bone\);/);
+  assert.match(await styles("social-card.css"), /--card-dim: oklch\(from var\(--cl-dim\) 68% c h\);/);
+
+  // Every step of the Starlight ramp reads a primitive; none names a hue of its own.
+  const docs = await styles("easy-cheese.css");
+  for (const token of ["--sl-color-white", "--sl-color-gray-1", "--sl-color-gray-2", "--sl-color-gray-3", "--sl-color-gray-4", "--sl-color-gray-5"]) {
+    const declaration = docs.match(new RegExp(`${token}: ([^;]+);`))[1];
+    assert.match(declaration, /^light-dark\(oklch\(from var\(--cl-ink\).+oklch\(from var\(--cl-bone\).+\)$/, `${token} must derive both halves from a primitive`);
+  }
+});
+
+test("no colored literal survives outside the flavor sheets that produce them", async () => {
+  for (const name of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "social-card.css", "header.css"]) {
+    for (const [literal, channels] of (await styles(name)).matchAll(/oklch\(([^()]*)\)/g)) {
+      if (channels.startsWith("from ")) continue;
+      const chroma = Number(channels.split(" ")[1]);
+      assert.ok(chroma <= 0.025, `${name}: ${literal} is a colored literal — derive it from a --cl-* primitive`);
+    }
+  }
+});
+
+test("the focus ring is the flavor's one accent, with no second color declared for it", async () => {
+  assert.match(await styles("cheeselord.css"), /:focus-visible \{ outline: 2px solid var\(--gold\);/);
+  assert.match(await styles("easy-cheese.css"), /:focus-visible \{ outline: 2px solid var\(--sl-color-accent\);/);
+  for (const name of ["flavors/easy-cheese.css", "flavors/hallouminate.css", "flavors/cheeselord.css"]) {
+    assert.doesNotMatch(await styles(name), /--cl-focus/, `${name} must not declare a focus color no rule consumes`);
+  }
 });
 
 test("every stylesheet names the mono face through --mono", async () => {

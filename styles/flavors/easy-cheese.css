@@ -7,7 +7,8 @@
 @property --cl-panel { syntax: "<color>"; inherits: true; initial-value: #1b1613; }
 @property --cl-amber { syntax: "<color>"; inherits: true; initial-value: #d9a13b; }
 @property --cl-rind { syntax: "<color>"; inherits: true; initial-value: #6f5620; }
-@property --cl-focus { syntax: "<color>"; inherits: true; initial-value: #003f8a; }
+@property --cl-bone { syntax: "<color>"; inherits: true; initial-value: #e9e2d0; }
+@property --cl-dim { syntax: "<color>"; inherits: true; initial-value: #8d8878; }
 
 :root {
   /* the gouda cellar: espresso-brown field, milk-white by day, one caramel accent */
@@ -17,5 +18,8 @@
   --cl-panel: oklch(from var(--cl-ink) calc(l + 0.03) calc(c * 0.9) calc(h - 10));
   --cl-amber: oklch(71% 0.14 64);
   --cl-rind: oklch(46% 0.09 64);
-  --cl-focus: oklch(38.2% 0.138 257);
+  /* the neutral ramp carries the flavor's own hue, so text reads as the same
+     material as the field it sits on rather than a generic grey imported into it */
+  --cl-bone: oklch(from var(--cl-ink) 91% 0.021 h);
+  --cl-dim: oklch(from var(--cl-ink) 61% 0.02 h);
 }

@@ -16,8 +16,8 @@
   color-scheme: dark;
   --cellar: var(--cl-ink);
   --panel: var(--cl-panel);
-  --bone: oklch(91% 0.021 95);
-  --dim: oklch(61% 0.02 95);
+  --bone: var(--cl-bone);
+  --dim: var(--cl-dim);
   --gold: var(--cl-amber);
   --hairline: oklch(from var(--bone) l c h / 13%);
   /* the ceiling wash above the field: takes the field's own hue, one token to retint */

@@ -6,8 +6,9 @@
    dimensions keep the proportions. */
 * { box-sizing: border-box; margin: 0; }
 main {
-  --card-bone: oklch(91% 0.021 95);
-  --card-dim: oklch(68% 0.02 95);
+  --card-bone: var(--cl-bone);
+  /* the card's secondary runs lighter than a page's, so it survives a thumbnail */
+  --card-dim: oklch(from var(--cl-dim) 68% c h);
   position: relative;
   container-type: size;
   display: flex;

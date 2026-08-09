@@ -18,9 +18,17 @@ async function resolveImports(fileUrl, seen = new Set()) {
   return resolved;
 }
 
+// Recursive: styles/flavors/*.css ship to consumers too, so they are held to the
+// same no-remote-fonts rule as the sheets that import them.
 async function styleFiles() {
-  const entries = await readdir(new URL(".", stylesDir));
-  return entries.filter((name) => name.endsWith(".css"));
+  const files = [];
+  for (const entry of await readdir(new URL(".", stylesDir), { withFileTypes: true, recursive: true })) {
+    if (entry.isFile() && entry.name.endsWith(".css")) {
+      const dir = entry.parentPath.slice(entry.parentPath.indexOf("dist/styles/") + "dist/styles/".length);
+      files.push(dir ? `${dir}/${entry.name}` : entry.name);
+    }
+  }
+  return files;
 }
 
 function fontFaces(resolved) {
@@ -54,10 +62,32 @@ const REQUIRED_FACES = [
   { family: "IBM Plex Mono", weight: "400" },
 ];
 
+// Pinned so the sweep below cannot quietly shrink to nothing: a mis-pathed dist
+// directory or a lost sheet fails here rather than passing zero assertions.
+const SHIPPED_STYLESHEETS = [
+  "cheeselord.css",
+  "easy-cheese.css",
+  "flavors/cheeselord.css",
+  "flavors/easy-cheese.css",
+  "flavors/hallouminate.css",
+  "fonts.css",
+  "hallouminate.css",
+  "header.css",
+  "social-card.css",
+];
+
 test("shared styles self-host fonts and preserve focus and reduced-motion behavior", async () => {
-  for (const filename of await styleFiles()) {
+  const files = await styleFiles();
+  assert.deepEqual(files.sort(), SHIPPED_STYLESHEETS, "the built styles directory must ship exactly these sheets");
+
+  for (const filename of files) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.doesNotMatch(resolved, /fonts\.googleapis\.com/, `${filename} must not load Google Fonts`);
+  }
+  // Sheets that render a page must respect reduced motion; flavors/*.css declare
+  // tokens and no rules, so they have no animation to suppress.
+  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "header.css", "social-card.css"]) {
+    const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.match(resolved, /prefers-reduced-motion/, `${filename} must respect reduced motion`);
   }
   for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css"]) {
@@ -66,7 +96,21 @@ test("shared styles self-host fonts and preserve focus and reduced-motion behavi
   }
 });
 
+// Pinned so a broken family regex fails loudly instead of skipping every check:
+// each pair below must still be discovered by referencedFamilies().
+const EXPECTED_FACE_REFERENCES = [
+  "cheeselord.css → Fraunces",
+  "cheeselord.css → IBM Plex Mono",
+  "easy-cheese.css → Fraunces",
+  "easy-cheese.css → IBM Plex Mono",
+  "hallouminate.css → Fraunces",
+  "hallouminate.css → IBM Plex Mono",
+  "social-card.css → Fraunces",
+  "social-card.css → IBM Plex Mono",
+];
+
 test("every theme self-hosts the required font faces it references, resolved on disk", async () => {
+  const checked = [];
   for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "social-card.css"]) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     const withoutFontFace = resolved.replace(/@font-face\s*\{[^}]*\}/g, "");
@@ -78,6 +122,8 @@ test("every theme self-hosts the required font faces it references, resolved on 
       const match = faces.find((face) => face.family === required.family && face.weight === required.weight);
       assert.ok(match, `${filename} references ${required.family} but has no self-hosted @font-face for weight ${required.weight}`);
       await access(new URL(match.url, stylesDir));
+      checked.push(`${filename} → ${required.family}`);
     }
   }
+  assert.deepEqual(checked.sort(), EXPECTED_FACE_REFERENCES, "a reference the sweep used to find has gone unchecked");
 });

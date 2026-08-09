@@ -10,19 +10,24 @@
   --sl-color-accent-high: light-dark(var(--cl-rind), oklch(from var(--cl-amber) 84% calc(c * 0.7) h));
   /* links and the current-page marker carry the full accent, matching the shell */
   --sl-color-text-accent: light-dark(oklch(from var(--cl-amber) 51% calc(c * 0.9) h), var(--cl-amber));
-  --sl-color-white: light-dark(oklch(20% 0.008 95), oklch(90.5% 0.021 95));
   --sl-color-black: light-dark(var(--cl-paper), var(--cl-ink));
-  /* neutral bone-cast ramp: the accent is the only color allowed to speak */
-  --sl-color-gray-1: light-dark(oklch(28% 0.01 95), oklch(88% 0.02 95));
-  --sl-color-gray-2: light-dark(oklch(40% 0.012 95), oklch(80% 0.02 95));
-  --sl-color-gray-3: light-dark(oklch(53% 0.014 95), oklch(66% 0.02 95));
-  --sl-color-gray-4: light-dark(oklch(65% 0.014 95), oklch(52% 0.018 95));
-  --sl-color-gray-5: light-dark(oklch(90% 0.008 95), oklch(28% 0.012 70));
+  /* Neutral ramp: the accent is the only color allowed to speak, so every step
+     borrows its hue from the flavor's own ink (light) or bone (dark) and varies
+     only in lightness. Retinting a flavor moves the whole ramp with it. */
+  --sl-color-white: light-dark(oklch(from var(--cl-ink) 20% 0.008 h), oklch(from var(--cl-bone) 90.5% c h));
+  --sl-color-gray-1: light-dark(oklch(from var(--cl-ink) 28% 0.01 h), oklch(from var(--cl-bone) 88% 0.02 h));
+  --sl-color-gray-2: light-dark(oklch(from var(--cl-ink) 40% 0.012 h), oklch(from var(--cl-bone) 80% 0.02 h));
+  --sl-color-gray-3: light-dark(oklch(from var(--cl-ink) 53% 0.014 h), oklch(from var(--cl-bone) 66% 0.02 h));
+  --sl-color-gray-4: light-dark(oklch(from var(--cl-ink) 65% 0.014 h), oklch(from var(--cl-bone) 52% 0.018 h));
+  --sl-color-gray-5: light-dark(oklch(from var(--cl-ink) 90% 0.008 h), oklch(from var(--cl-bone) 28% 0.012 h));
   --sl-color-gray-6: light-dark(var(--cl-warm-paper), var(--cl-panel));
+
+  /* the ceiling wash above the dark field: the field's own hue, one token to retint */
+  --glow: oklch(from var(--cl-ink) 29% 0.035 h / 55%);
 }
 
 /* faint cellar glow at the top of the dark field only */
-body { background: radial-gradient(ellipse 60rem 40rem at 50% -10%, light-dark(transparent, oklch(29% 0.03 66 / 55%)), transparent 60%), var(--sl-color-black); }
+body { background: radial-gradient(ellipse 60rem 40rem at 50% -10%, light-dark(transparent, var(--glow)), transparent 60%), var(--sl-color-black); }
 
 /* code chips inside links: readable pale-on-deep, never accent tone-on-tone */
 .sl-markdown-content a > code {
