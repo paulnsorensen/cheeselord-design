@@ -14,7 +14,6 @@ export interface CoreDefinition {
 export interface FlavorDefinition {
   name: FlavorName;
   accents: Record<string, string>;
-  typography?: { display?: string; mono?: string };
   surfaces?: Record<string, string>;
   socialCard: { composition: "workshop" | "signal" | "monument" };
 }
