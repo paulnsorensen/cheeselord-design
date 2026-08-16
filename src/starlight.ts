@@ -1,7 +1,7 @@
 import type { FlavorName } from "./flavor.js";
 
 export interface StarlightThemeOptions {
-  flavor: Extract<FlavorName, "easy-cheese" | "hallouminate">;
+  flavor: Extract<FlavorName, "easy-cheese" | "hallouminate" | "sliced-bread">;
 }
 
 export interface StarlightThemePlugin {

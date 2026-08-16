@@ -70,9 +70,11 @@ const SHIPPED_STYLESHEETS = [
   "flavors/cheeselord.css",
   "flavors/easy-cheese.css",
   "flavors/hallouminate.css",
+  "flavors/sliced-bread.css",
   "fonts.css",
   "hallouminate.css",
   "header.css",
+  "sliced-bread.css",
   "social-card.css",
 ];
 
@@ -86,11 +88,11 @@ test("shared styles self-host fonts and preserve focus and reduced-motion behavi
   }
   // Sheets that render a page must respect reduced motion; flavors/*.css declare
   // tokens and no rules, so they have no animation to suppress.
-  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "header.css", "social-card.css"]) {
+  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "sliced-bread.css", "header.css", "social-card.css"]) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.match(resolved, /prefers-reduced-motion/, `${filename} must respect reduced motion`);
   }
-  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css"]) {
+  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "sliced-bread.css"]) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     assert.match(resolved, /:focus-visible/, `${filename} must define visible keyboard focus`);
   }
@@ -105,13 +107,15 @@ const EXPECTED_FACE_REFERENCES = [
   "easy-cheese.css → IBM Plex Mono",
   "hallouminate.css → Fraunces",
   "hallouminate.css → IBM Plex Mono",
+  "sliced-bread.css → Fraunces",
+  "sliced-bread.css → IBM Plex Mono",
   "social-card.css → Fraunces",
   "social-card.css → IBM Plex Mono",
 ];
 
 test("every theme self-hosts the required font faces it references, resolved on disk", async () => {
   const checked = [];
-  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "social-card.css"]) {
+  for (const filename of ["cheeselord.css", "easy-cheese.css", "hallouminate.css", "sliced-bread.css", "social-card.css"]) {
     const resolved = await resolveImports(new URL(filename, stylesDir));
     const withoutFontFace = resolved.replace(/@font-face\s*\{[^}]*\}/g, "");
     const referenced = referencedFamilies(withoutFontFace);

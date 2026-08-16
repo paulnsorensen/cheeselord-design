@@ -1,0 +1,6 @@
+@import "./easy-cheese.css";
+@import "./flavors/sliced-bread.css";
+
+/* the loaf in cross-section: faint slice hairlines on a wide, even rhythm —
+   the vertical slices of the architecture, drawn once and quietly */
+body { background: repeating-linear-gradient(90deg, light-dark(oklch(from var(--cl-ink) l c h / 3%), oklch(from var(--cl-amber) l c h / 3.5%)) 0 1px, transparent 1px 88px), var(--sl-color-black); }
