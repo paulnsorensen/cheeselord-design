@@ -62,6 +62,9 @@ h1 + p { font-size: 3.1cqb; line-height: 1.55; color: var(--card-dim); max-inlin
 .signal-through-the-melt { background: repeating-linear-gradient(90deg, oklch(from var(--cl-amber) l c h / 4%) 0 0.4cqb, transparent 0.4cqb 3.2cqb), var(--cl-ink); }
 .signal-through-the-melt h1 { font-variation-settings: "SOFT" 0, "WONK" 0; }
 
+/* since-sliced-bread: the cutting board — slice hairlines on a wide, even rhythm */
+.since-sliced-bread { background: repeating-linear-gradient(90deg, oklch(from var(--cl-amber) l c h / 5%) 0 0.3cqb, transparent 0.3cqb 11cqi), var(--cl-ink); }
+
 /* norse-cheese-lord: the monument — constellation dots, type centered and huge */
 .norse-cheese-lord {
   align-items: center;

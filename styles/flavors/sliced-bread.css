@@ -1,0 +1,10 @@
+@import "./easy-cheese.css";
+
+:root {
+  /* the bakery cross-section: dark rye field, flour white by day, one toasted-crust accent */
+  --cl-paper: oklch(97.7% 0.006 90);
+  --cl-warm-paper: oklch(94.9% 0.01 88);
+  --cl-ink: oklch(17.2% 0.011 80);
+  --cl-amber: oklch(71% 0.135 48);
+  --cl-rind: oklch(46% 0.09 48);
+}

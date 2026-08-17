@@ -24,6 +24,24 @@
 
   /* the ceiling wash above the dark field: the field's own hue, one token to retint */
   --glow: oklch(from var(--cl-ink) 29% 0.035 h / 55%);
+
+  /* Starlight's stock five-hue family (cards, asides) collapses to the single
+     accent: exactly one color speaks per flavor, never a rainbow */
+  --sl-color-purple: var(--sl-color-accent);
+  --sl-color-purple-low: var(--sl-color-accent-low);
+  --sl-color-purple-high: var(--sl-color-accent-high);
+  --sl-color-orange: var(--sl-color-accent);
+  --sl-color-orange-low: var(--sl-color-accent-low);
+  --sl-color-orange-high: var(--sl-color-accent-high);
+  --sl-color-green: var(--sl-color-accent);
+  --sl-color-green-low: var(--sl-color-accent-low);
+  --sl-color-green-high: var(--sl-color-accent-high);
+  --sl-color-red: var(--sl-color-accent);
+  --sl-color-red-low: var(--sl-color-accent-low);
+  --sl-color-red-high: var(--sl-color-accent-high);
+  --sl-color-blue: var(--sl-color-accent);
+  --sl-color-blue-low: var(--sl-color-accent-low);
+  --sl-color-blue-high: var(--sl-color-accent-high);
 }
 
 /* faint cellar glow at the top of the dark field only */

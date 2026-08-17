@@ -1,6 +1,6 @@
 {
   "name": "@cheeselord/design",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Shared visual system for Cheese Lord projects",
   "type": "module",
   "exports": {
@@ -43,7 +43,8 @@
   "devDependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.2.8",
-    "typescript": "^5.9.3"
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2"
   },
   "scripts": {
     "check": "tsc --noEmit && node scripts/check.mjs",
@@ -58,5 +59,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paulnsorensen/cheeselord-design.git"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
   }
 }

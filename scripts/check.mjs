@@ -38,7 +38,7 @@ async function readResolved(filename, seen = new Set()) {
 // Every sheet that renders a page must respect reduced motion; the interactive
 // ones must also show keyboard focus. Social cards are static images with no
 // focus to show, and styles/flavors/*.css declare tokens and no rules at all.
-for (const filename of ["styles/easy-cheese.css", "styles/hallouminate.css", "styles/cheeselord.css", "styles/social-card.css"]) {
+for (const filename of ["styles/easy-cheese.css", "styles/hallouminate.css", "styles/sliced-bread.css", "styles/cheeselord.css", "styles/social-card.css"]) {
   const stylesheet = await readResolved(filename);
   if (!stylesheet.includes("prefers-reduced-motion")) throw new Error(`${filename} must respect reduced motion`);
   if (filename === "styles/social-card.css") continue;
@@ -50,7 +50,7 @@ for (const filename of ["styles/easy-cheese.css", "styles/hallouminate.css", "st
 // hairline fallbacks, chroma <= 0.025) may be literal; anything with real color
 // must be written relative to a primitive so coherence holds by construction.
 const NEUTRAL_CHROMA = 0.025;
-for (const filename of ["styles/cheeselord.css", "styles/easy-cheese.css", "styles/hallouminate.css", "styles/social-card.css", "styles/header.css"]) {
+for (const filename of ["styles/cheeselord.css", "styles/easy-cheese.css", "styles/hallouminate.css", "styles/sliced-bread.css", "styles/social-card.css", "styles/header.css"]) {
   const stylesheet = await readFile(filename, "utf8");
   for (const [literal, channels] of stylesheet.matchAll(/oklch\(([^()]*)\)/g)) {
     if (channels.startsWith("from ")) continue;
@@ -185,7 +185,7 @@ function assertContrast(filename, tokens, foreground, background, mode) {
   }
 }
 
-const flavors = ["easy-cheese", "hallouminate", "cheeselord"];
+const flavors = ["easy-cheese", "hallouminate", "sliced-bread", "cheeselord"];
 
 // Flavor primitives: the accent must speak on the dark field, the rind on paper.
 for (const flavor of flavors) {
@@ -196,7 +196,7 @@ for (const flavor of flavors) {
 }
 
 // Starlight themes: text tokens against the mode's field, for every flavor's primitives.
-for (const flavor of ["easy-cheese", "hallouminate"]) {
+for (const flavor of ["easy-cheese", "hallouminate", "sliced-bread"]) {
   const filename = `styles/${flavor}.css`;
   const tokens = declarations(await readResolved(filename));
   for (const token of ["--sl-color-white", "--sl-color-gray-1", "--sl-color-gray-2", "--sl-color-gray-3", "--sl-color-text-accent"]) {

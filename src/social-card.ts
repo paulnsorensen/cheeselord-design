@@ -22,6 +22,7 @@ const fontAssets = ["assets/fonts/fraunces-latin-variable.woff2", "assets/fonts/
 const cardClass: Record<FlavorName, string> = {
   "easy-cheese": "fresh-wheel",
   hallouminate: "signal-through-the-melt",
+  "sliced-bread": "since-sliced-bread",
   cheeselord: "norse-cheese-lord",
 };
 

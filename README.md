@@ -1,6 +1,6 @@
 # Cheeselord Design
 
-`@cheeselord/design` is the shared visual contract for easy-cheese, hallouminate, and cheeselord.dev.
+`@cheeselord/design` is the shared visual contract for easy-cheese, hallouminate, sliced-bread-architecture, and cheeselord.dev.
 
 ## Starlight
 
@@ -35,7 +35,7 @@ Three tokens exist so a page never has to restate a shorthand:
 
 ## Social cards
 
-`generateSocialCard({ flavor, title, description, dimensions })` returns the card HTML plus an `assets` list of every file it needs, mirroring `generatePortal`. The HTML links the flavor primitives first, then `styles/social-card.css`, whose three compositions map one per flavor: `fresh-wheel` (easy-cheese, the wheel stage right), `signal-through-the-melt` (hallouminate, sear lines, no wonk), and `norse-cheese-lord` (cheeselord, centered on the constellation field). Type is sized in container units, so any requested dimensions keep the proportions. Place the HTML next to the copied assets (the `dist/styles/` layout), screenshot at `width`×`height`, and hand the resulting URL to `generatePortal({ ogImage })` for the matching `og:image` tag.
+`generateSocialCard({ flavor, title, description, dimensions })` returns the card HTML plus an `assets` list of every file it needs, mirroring `generatePortal`. The HTML links the flavor primitives first, then `styles/social-card.css`, whose four compositions map one per flavor: `fresh-wheel` (easy-cheese, the wheel stage right), `signal-through-the-melt` (hallouminate, sear lines, no wonk), `since-sliced-bread` (sliced-bread, slice hairlines on a wide rhythm), and `norse-cheese-lord` (cheeselord, centered on the constellation field). Type is sized in container units, so any requested dimensions keep the proportions. Place the HTML next to the copied assets (the `dist/styles/` layout), screenshot at `width`×`height`, and hand the resulting URL to `generatePortal({ ogImage })` for the matching `og:image` tag.
 
 ## Guarantees
 
