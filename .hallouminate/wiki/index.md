@@ -24,6 +24,9 @@ material here.
 - Architecture
   - [[architecture/preview-app-split]] — why the preview site is a second npm package wired
     to the root via `file:..`, and what that buys in CI.
+  - [[architecture/flavor-set-layers]] — the flavor set is not one list; each surface
+    (Starlight themes, social cards, preview builds, the published schema) admits a
+    deliberate subset, and the exported schema is unenforced and has drifted.
 - Gotchas
   - [[gotchas/contrast-checker-oklch-syntax]] — `scripts/check.mjs`'s contrast enforcement
     only understands specific `oklch()` shapes; new color syntax must be taught to it before
