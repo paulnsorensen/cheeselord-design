@@ -28,12 +28,10 @@ The JSON Schema is exported to consumers via `package.json`'s `"./schemas/*"`, b
 **no test or build step validates against it**, and the enforced validator
 `validateFlavor` (`src/index.ts`) never checks the `name` field at all — it only
 validates `accents`/`surfaces` tokens and the locked-token rule. Because nothing gates
-it, the schema has drifted from the code:
-
-- its `name` enum omits `sliced-bread` (present in `flavorNames` and with its own
-  `cardClass` and `styles/flavors/sliced-bread.css`);
-- its `socialCard.composition` enum is the 3-value abstract taxonomy, matching
-  `index.ts` but not the four rendered card classes.
+it, the schema can drift from the code (its `name` enum lagged `flavorNames` for a
+while after `sliced-bread` landed, until reconciled by hand). Note also that its
+`socialCard.composition` enum is the 3-value abstract taxonomy, matching `index.ts`
+but not the four rendered card classes — that 3-vs-4 split is intentional, not drift.
 
 Treat `src/flavor.ts` `flavorNames` as the source of truth for the flavor set, not the
 schema. If you rely on `schemas/flavor.schema.json`, reconcile it by hand — CI will not
