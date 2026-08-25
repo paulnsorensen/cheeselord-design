@@ -5,7 +5,7 @@
   "required": ["name", "accents", "socialCard"],
   "additionalProperties": false,
   "properties": {
-    "name": { "enum": ["easy-cheese", "hallouminate", "cheeselord"] },
+    "name": { "enum": ["easy-cheese", "hallouminate", "sliced-bread", "cheeselord"] },
     "accents": {
       "type": "object",
       "additionalProperties": false,
