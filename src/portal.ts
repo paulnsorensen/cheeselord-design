@@ -1,3 +1,5 @@
+import { cheeseFavicon } from "./favicon.js";
+
 export interface ProjectLink {
   href: string;
   label: string;
@@ -22,9 +24,6 @@ const stylesheetAssets = [
   "dist/styles/flavors/cheeselord.css",
   "dist/styles/cheeselord.css",
 ];
-
-/* the 🧀 tab identity (AGENTS.md brand invariant #2), self-contained so no icon asset ships */
-const favicon = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text x=%228%22 y=%2213%22 font-size=%2213%22 text-anchor=%22middle%22>%F0%9F%A7%80</text></svg>";
 
 function escapeHtml(value: string): string {
   return value
@@ -74,7 +73,7 @@ export function generatePortal(options: {
   <meta name="color-scheme" content="dark">
   <title>🧀</title>
   <meta name="description" content="${description}">
-  <link rel="icon" href="${favicon}">
+  <link rel="icon" href="${cheeseFavicon}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="cheeselord.dev">
   <meta property="og:description" content="${description}">${ogImage}
