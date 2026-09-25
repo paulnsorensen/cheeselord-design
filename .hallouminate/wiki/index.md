@@ -27,7 +27,13 @@ material here.
   - [[architecture/flavor-set-layers]] — the flavor set is not one list; each surface
     (Starlight themes, social cards, preview builds, the published schema) admits a
     deliberate subset, and the exported schema is unenforced and has drifted.
+  - [[architecture/starlight-theme-sheets-share-a-base]] — `styles/easy-cheese.css` is the
+    shared Starlight skin for all three themed flavors, not an easy-cheese-only sheet;
+    `hallouminate.css`/`sliced-bread.css` are thin overlays on top of it.
 - Gotchas
   - [[gotchas/contrast-checker-oklch-syntax]] — `scripts/check.mjs`'s contrast enforcement
     only understands specific `oklch()` shapes; new color syntax must be taught to it before
     it can ship.
+  - [[gotchas/typescript7-explicit-types-node]] — the TypeScript 7 toolchain needs
+    `@types/node` and `tsconfig.json`'s `types` array spelled out explicitly; neither looks
+    load-bearing until it's missing.
