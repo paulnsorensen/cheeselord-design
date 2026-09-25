@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { flavorNames, type FlavorName } from "./flavor.js";
 
+export { cheeseFavicon } from "./favicon.js";
 export { flavorNames };
 export type { FlavorName };
 
