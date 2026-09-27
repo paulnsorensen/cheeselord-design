@@ -37,3 +37,6 @@ material here.
   - [[gotchas/typescript7-explicit-types-node]] — the TypeScript 7 toolchain needs
     `@types/node` and `tsconfig.json`'s `types` array spelled out explicitly; neither looks
     load-bearing until it's missing.
+  - [[gotchas/starlight-favicon-rel-must-match-default]] — the shared favicon's `rel`
+    must equal Starlight's own default (`shortcut icon`) or Starlight's default favicon
+    silently wins the browser tab.
